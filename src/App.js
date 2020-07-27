@@ -1,26 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import LandingPage from './containers/LandingPage';
+import Login from './containers/Login';
+import Signup from './containers/Signup';
+import RecruiterPortal from './containers/RecruiterPortal';
+import PostJob from './containers/PostJob';
+import JobCandidates from './containers/JobCandidates';
+import CandidatePortal from './containers/CandidatePortal';
+import CandidateJobs from './containers/CandidateJobs';
+import AdminPortal from './containers/AdminPortal';
+import Jobs from './containers/Jobs';
+import Candidates from './containers/Candidates';
+import Recruiters from './containers/Recruiters';
+
+const App = () => {
+	return (
+		<div className='ui container'>
+			<BrowserRouter>
+				<div>
+					<Route path='/' exact component={LandingPage} />
+					<Route path='/signup' exact component={Signup} />
+					<Route path='/login' exact component={Login} />
+
+					<Route path='/recruiter/portal' component={RecruiterPortal} />
+					<Route path='/post/job' component={PostJob} />
+					<Route path='/job/candidates' component={JobCandidates} />
+
+					<Route path='/candidate/portal' component={CandidatePortal} />
+					<Route path='/candidate/jobs' component={CandidateJobs} />
+
+					<Route path='/admin/portal' component={AdminPortal} />
+					<Route path='/jobs' component={Jobs} />
+					<Route path='/candidates' component={Candidates} />
+					<Route path='/recruiters' component={Recruiters} />
+				</div>
+			</BrowserRouter>
+		</div>
+	);
+};
 
 export default App;
