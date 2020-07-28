@@ -1,6 +1,13 @@
-import React from 'react';
-import { Button, Container, Col, Form, Row } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { passwordMinLength, users } from '../config';
+import { Container, Col, Row } from 'react-bootstrap';
+
 import { Link } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { signUp } from '../actions';
+
+const ALPHABET_SPACE_REGEX = /^[a-zA-Z ]*$/;
 
 const styles = {
 	homeLink: {
@@ -12,96 +19,135 @@ const styles = {
 	},
 };
 
-const Signup = () => {
-	return (
-		<Container>
-			<Row style={styles.headerRow}>
-				<Col>
-					<Link to='/' style={styles.homeLink}>
-						<h1>Job Finder</h1>
-					</Link>
-				</Col>
-			</Row>
+class Signup extends Component {
+	renderError({ error, touched }) {
+		if (touched && error) {
+			return (
+				<div className='ui error message'>
+					<div className='ui header'>{error}</div>
+				</div>
+			);
+		}
+	}
 
-			<Row>
-				<Col>
-					<Form>
-						<Form.Group controlId='formBasicName'>
-							<Form.Label>Name</Form.Label>
-							<Form.Control
-								type='text'
-								placeholder='Enter your name'
-								required={true}
-							/>
-						</Form.Group>
+	renderInput = ({ input, label, meta, type = 'text' }) => {
+		const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
+		return (
+			<div className={className}>
+				<label>{label}</label>
+				<input {...input} type={type} />
+				{this.renderError(meta)}
+			</div>
+		);
+	};
 
-						<Form.Group controlId='formBasicEmail'>
-							<Form.Label>Email address</Form.Label>
-							<Form.Control
+	onSubmit = (formValues) => {
+		if (formValues.userType === users.candidate.type) {
+			formValues.role = users.candidate.role;
+		} else if (formValues.userType === users.recruiter.type) {
+			formValues.role = users.recruiter.role;
+		}
+		this.props.signUp(formValues, formValues.userType);
+	};
+
+	render() {
+		return (
+			<Container>
+				<Row style={styles.headerRow}>
+					<Col>
+						<Link to='/' style={styles.homeLink}>
+							<h1>Job Finder</h1>
+						</Link>
+					</Col>
+				</Row>
+
+				<Row>
+					<Col>
+						<form
+							onSubmit={this.props.handleSubmit(this.onSubmit)}
+							className='ui form error'
+						>
+							<Field name='name' component={this.renderInput} label='Name' />
+
+							<Field
+								name='email'
+								component={this.renderInput}
+								label='Email'
 								type='email'
-								placeholder='Enter email'
-								required={true}
 							/>
-							<Form.Text className='text-muted'>
-								We'll never share your email with anyone else.
-							</Form.Text>
-						</Form.Group>
 
-						<Form.Group controlId='formBasicPhone'>
-							<Form.Label>Phone</Form.Label>
-							<Form.Control type='text' placeholder='Enter phone number' />
-						</Form.Group>
-
-						<Form.Group controlId='formBasicPassword'>
-							<Form.Label>Password</Form.Label>
-							<Form.Control
-								minLength={6}
+							<Field
+								name='password'
+								component={this.renderInput}
+								label='Password'
 								type='password'
-								placeholder='Password'
-								required={true}
 							/>
-						</Form.Group>
 
-						<Form.Group controlId='formBasicSkills'>
-							<Form.Label>Skills</Form.Label>
-							<Form.Control
-								type='text'
-								placeholder='Skills (if you are a candidate)'
+							<Field name='phone' component={this.renderInput} label='Phone' />
+
+							<Field
+								name='skills'
+								component={this.renderInput}
+								label='Skills'
 							/>
-						</Form.Group>
 
-						{['radio'].map((type) => (
-							<div key={`inline-${type}`} className='mb-3'>
-								<Form.Check
-									inline
-									label='Candidate'
-									name='userRole'
-									type={type}
-									id={`inline-${type}-2`}
-									required={true}
-								/>
-								<Form.Check
-									inline
-									label='Recruiter'
-									name='userRole'
-									type={type}
-									id={`inline-${type}-3`}
-									required={true}
-								/>
-							</div>
-						))}
+							<Field
+								name='userType'
+								component={this.renderInput}
+								label='candidate or recruiter??'
+							/>
 
-						<Button variant='primary' type='submit'>
-							Sign up
-						</Button>
-					</Form>
-					<Link to='/login'>
-						<small>Already have an account?</small>
-					</Link>
-				</Col>{' '}
-			</Row>
-		</Container>
-	);
+							<button className='ui button primary'>Signup</button>
+						</form>
+
+						<Link to='/login'>
+							<small>Already have an account?</small>
+						</Link>
+					</Col>{' '}
+				</Row>
+			</Container>
+		);
+	}
+}
+
+const validate = (formValues) => {
+	const errors = {};
+	if (!formValues.name) {
+		errors.name = 'You must enter a name';
+	}
+	if (formValues.name && !formValues.name.match(ALPHABET_SPACE_REGEX)) {
+		errors.name = 'Name can only contain alphabets';
+	}
+
+	if (!formValues.email) {
+		errors.email = 'You must enter a email';
+	}
+
+	if (!formValues.password) {
+		errors.password = 'You must enter a password';
+	}
+	if (formValues.password && formValues.password.length < passwordMinLength) {
+		errors.password = 'Password must be at least 6 characters long';
+	}
+
+	if (!formValues.phone) {
+		errors.phone = 'You must enter a phone';
+	}
+	if (!formValues.userType) {
+		errors.userType = 'You must enter a user type';
+	}
+	if (
+		formValues.userType &&
+		![users.candidate.type, users.recruiter.type].includes(formValues.userType)
+	) {
+		errors.userType = 'User type can be either candidate or recruiter';
+	}
+	return errors;
 };
 
-export default Signup;
+const formWrapped = reduxForm({
+	form: 'signup',
+	validate,
+})(Signup);
+
+export default connect(null, { signUp })(formWrapped);

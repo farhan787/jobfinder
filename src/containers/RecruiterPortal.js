@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 const jobs = [
 	{
@@ -67,7 +68,7 @@ const renderJobs = (jobs) => {
 	});
 };
 
-const RecruiterPortal = () => {
+const RecruiterPortal = (props) => {
 	return (
 		<Container>
 			<Row>
@@ -93,4 +94,10 @@ const RecruiterPortal = () => {
 	);
 };
 
-export default RecruiterPortal;
+const mapStateToProps = (state) => {
+	return {
+		loggedInUser: state.loggedInUser,
+	};
+};
+
+export default connect(mapStateToProps)(RecruiterPortal);

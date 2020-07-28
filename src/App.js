@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
+import history from './history';
 
 import LandingPage from './containers/LandingPage';
 import Login from './containers/Login';
@@ -17,7 +18,7 @@ import Recruiters from './containers/Recruiters';
 const App = () => {
 	return (
 		<div className='ui container'>
-			<BrowserRouter>
+			<Router history={history}>
 				<div>
 					<Route path='/' exact component={LandingPage} />
 					<Route path='/signup' exact component={Signup} />
@@ -35,7 +36,7 @@ const App = () => {
 					<Route path='/candidates' component={Candidates} />
 					<Route path='/recruiters' component={Recruiters} />
 				</div>
-			</BrowserRouter>
+			</Router>
 		</div>
 	);
 };

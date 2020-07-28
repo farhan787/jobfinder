@@ -1,6 +1,11 @@
-import React from 'react';
-import { Button, Container, Col, Form, Row } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { passwordMinLength, users } from '../config';
+import { Container, Col, Row } from 'react-bootstrap';
+
 import { Link } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { logIn } from '../actions';
 
 const styles = {
 	homeLink: {
@@ -12,80 +17,113 @@ const styles = {
 	},
 };
 
-const loginHandler = (event) => {
-	// event.preventDefault();
-	console.log(event);
-};
+class Login extends Component {
+	renderError({ error, touched }) {
+		if (touched && error) {
+			return (
+				<div className='ui error message'>
+					<div className='ui header'>{error}</div>
+				</div>
+			);
+		}
+	}
 
-const Login = () => {
-	return (
-		<Container>
-			<Row style={styles.headerRow}>
-				<Col>
-					<Link to='/' style={styles.homeLink}>
-						<h1>Job Finder</h1>
-					</Link>
-				</Col>
-			</Row>
+	renderInput = ({ input, label, meta, type = 'text' }) => {
+		const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
+		return (
+			<div className={className}>
+				<label>{label}</label>
+				<input {...input} type={type} />
+				{this.renderError(meta)}
+			</div>
+		);
+	};
 
-			<Row>
-				<Col>
-					<Form>
-						<Form.Group controlId='formBasicEmail'>
-							<Form.Label>Email address</Form.Label>
-							<Form.Control
+	onSubmit = (formValues) => {
+		if (formValues.userType === users.candidate.type) {
+			formValues.role = users.candidate.role;
+		} else if (formValues.userType === users.recruiter.type) {
+			formValues.role = users.recruiter.role;
+		} else if (formValues.userType === users.admin.type) {
+			formValues.role = users.admin.role;
+		}
+		this.props.logIn(formValues, formValues.userType);
+	};
+
+	render() {
+		return (
+			<Container>
+				<Row style={styles.headerRow}>
+					<Col>
+						<Link to='/' style={styles.homeLink}>
+							<h1>Job Finder</h1>
+						</Link>
+					</Col>
+				</Row>
+
+				<Row>
+					<Col>
+						<form
+							onSubmit={this.props.handleSubmit(this.onSubmit)}
+							className='ui form error'
+						>
+							<Field
+								name='email'
+								component={this.renderInput}
+								label='Email'
 								type='email'
-								placeholder='Enter email'
-								required={true}
 							/>
-						</Form.Group>
 
-						<Form.Group controlId='formBasicPassword'>
-							<Form.Label>Password</Form.Label>
-							<Form.Control
+							<Field
+								name='password'
+								component={this.renderInput}
+								label='Password'
 								type='password'
-								placeholder='Password'
-								required={true}
 							/>
-						</Form.Group>
 
-						{['radio'].map((type) => (
-							<div key={`inline-${type}`} className='mb-3'>
-								<Form.Check
-									inline
-									label='Admin'
-									name='userRole'
-									type={type}
-									id={`inline-${type}-1`}
-									required={true}
-								/>
-								<Form.Check
-									inline
-									label='Candidate'
-									name='userRole'
-									type={type}
-									id={`inline-${type}-2`}
-									required={true}
-								/>
-								<Form.Check
-									inline
-									label='Recruiter'
-									name='userRole'
-									type={type}
-									id={`inline-${type}-3`}
-									required={true}
-								/>
-							</div>
-						))}
+							<Field
+								name='userType'
+								component={this.renderInput}
+								label='admin or candidate or recruiter??'
+							/>
 
-						<Button onClick={loginHandler} variant='primary' type='submit'>
-							Log in
-						</Button>
-					</Form>
-				</Col>{' '}
-			</Row>
-		</Container>
-	);
+							<button className='ui button primary'>Login</button>
+						</form>
+					</Col>{' '}
+				</Row>
+			</Container>
+		);
+	}
+}
+
+const validate = (formValues) => {
+	const errors = {};
+	if (!formValues.email) {
+		errors.email = 'You must enter a email';
+	}
+	if (!formValues.password) {
+		errors.password = 'You must enter a password';
+	}
+	if (formValues.password && formValues.password.length < passwordMinLength) {
+		errors.password = 'Password must be at least 6 characters long';
+	}
+	if (!formValues.userType) {
+		errors.userType = 'You must enter a user type';
+	}
+	if (
+		formValues.userType &&
+		![users.admin.type, users.candidate.type, users.recruiter.type].includes(
+			formValues.userType
+		)
+	) {
+		errors.userType = 'User type can be either admin or candidate or recruiter';
+	}
+	return errors;
 };
 
-export default Login;
+const formWrapped = reduxForm({
+	form: 'login',
+	validate,
+})(Login);
+
+export default connect(null, { logIn })(formWrapped);
