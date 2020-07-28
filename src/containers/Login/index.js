@@ -17,6 +17,31 @@ const styles = {
 	},
 };
 
+const validate = (formValues) => {
+	const errors = {};
+	if (!formValues.email) {
+		errors.email = 'You must enter an email';
+	}
+	if (!formValues.password) {
+		errors.password = 'You must enter a password';
+	}
+	if (formValues.password && formValues.password.length < passwordMinLength) {
+		errors.password = 'Password must be at least 6 characters long';
+	}
+	if (!formValues.userType) {
+		errors.userType = 'You must enter a user type';
+	}
+	if (
+		formValues.userType &&
+		![users.admin.type, users.candidate.type, users.recruiter.type].includes(
+			formValues.userType
+		)
+	) {
+		errors.userType = 'User type can be either admin or candidate or recruiter';
+	}
+	return errors;
+};
+
 class Login extends Component {
 	renderError({ error, touched }) {
 		if (touched && error) {
@@ -95,31 +120,6 @@ class Login extends Component {
 		);
 	}
 }
-
-const validate = (formValues) => {
-	const errors = {};
-	if (!formValues.email) {
-		errors.email = 'You must enter an email';
-	}
-	if (!formValues.password) {
-		errors.password = 'You must enter a password';
-	}
-	if (formValues.password && formValues.password.length < passwordMinLength) {
-		errors.password = 'Password must be at least 6 characters long';
-	}
-	if (!formValues.userType) {
-		errors.userType = 'You must enter a user type';
-	}
-	if (
-		formValues.userType &&
-		![users.admin.type, users.candidate.type, users.recruiter.type].includes(
-			formValues.userType
-		)
-	) {
-		errors.userType = 'User type can be either admin or candidate or recruiter';
-	}
-	return errors;
-};
 
 const formWrapped = reduxForm({
 	form: 'login',

@@ -19,6 +19,41 @@ const styles = {
 	},
 };
 
+const validate = (formValues) => {
+	const errors = {};
+	if (!formValues.name) {
+		errors.name = 'You must enter a name';
+	}
+	if (formValues.name && !formValues.name.match(ALPHABET_SPACE_REGEX)) {
+		errors.name = 'Name can only contain alphabets';
+	}
+
+	if (!formValues.email) {
+		errors.email = 'You must enter an email';
+	}
+
+	if (!formValues.password) {
+		errors.password = 'You must enter a password';
+	}
+	if (formValues.password && formValues.password.length < passwordMinLength) {
+		errors.password = 'Password must be at least 6 characters long';
+	}
+
+	if (!formValues.phone) {
+		errors.phone = 'You must enter a phone';
+	}
+	if (!formValues.userType) {
+		errors.userType = 'You must enter a user type';
+	}
+	if (
+		formValues.userType &&
+		![users.candidate.type, users.recruiter.type].includes(formValues.userType)
+	) {
+		errors.userType = 'User type can be either candidate or recruiter';
+	}
+	return errors;
+};
+
 class Signup extends Component {
 	renderError({ error, touched }) {
 		if (touched && error) {
@@ -109,41 +144,6 @@ class Signup extends Component {
 		);
 	}
 }
-
-const validate = (formValues) => {
-	const errors = {};
-	if (!formValues.name) {
-		errors.name = 'You must enter a name';
-	}
-	if (formValues.name && !formValues.name.match(ALPHABET_SPACE_REGEX)) {
-		errors.name = 'Name can only contain alphabets';
-	}
-
-	if (!formValues.email) {
-		errors.email = 'You must enter an email';
-	}
-
-	if (!formValues.password) {
-		errors.password = 'You must enter a password';
-	}
-	if (formValues.password && formValues.password.length < passwordMinLength) {
-		errors.password = 'Password must be at least 6 characters long';
-	}
-
-	if (!formValues.phone) {
-		errors.phone = 'You must enter a phone';
-	}
-	if (!formValues.userType) {
-		errors.userType = 'You must enter a user type';
-	}
-	if (
-		formValues.userType &&
-		![users.candidate.type, users.recruiter.type].includes(formValues.userType)
-	) {
-		errors.userType = 'User type can be either candidate or recruiter';
-	}
-	return errors;
-};
 
 const formWrapped = reduxForm({
 	form: 'signup',

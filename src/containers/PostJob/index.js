@@ -16,6 +16,21 @@ const styles = {
 	},
 };
 
+const validate = (formValues) => {
+	const errors = {};
+	if (!formValues.title) {
+		errors.title = 'You must enter a title';
+	}
+	if (!formValues.description) {
+		errors.description = 'You must enter a description';
+	}
+	if (!formValues.location) {
+		errors.location = 'You must enter a location';
+	}
+
+	return errors;
+};
+
 class PostJob extends Component {
 	renderError({ error, touched }) {
 		if (touched && error) {
@@ -82,21 +97,6 @@ class PostJob extends Component {
 		);
 	}
 }
-
-const validate = (formValues) => {
-	const errors = {};
-	if (!formValues.title) {
-		errors.title = 'You must enter a title';
-	}
-	if (!formValues.description) {
-		errors.description = 'You must enter a description';
-	}
-	if (!formValues.location) {
-		errors.location = 'You must enter a location';
-	}
-
-	return errors;
-};
 
 const mapStateToProps = (state) => {
 	return {
