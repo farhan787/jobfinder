@@ -1,7 +1,7 @@
 export default (state = [], action) => {
 	switch (action.type) {
-		case 'POST_JOB':
-			return [...state, action.payload.data];
+		case 'FETCH_POSTED_JOBS':
+			return action.payload.data;
 
 		default:
 			return state;

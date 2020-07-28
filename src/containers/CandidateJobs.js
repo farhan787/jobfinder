@@ -1,20 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-
-const appliedJobs = [
-	{
-		title: 'Senior SDE',
-		description: 'Experience in building complex large scale systems',
-		location: 'London(UK)',
-	},
-	{
-		title: 'SDE 1',
-		description:
-			'Strong problem solving and analysing skills, DSA, OOPS, DBMS, OS',
-		location: 'Hyderabad(India)',
-	},
-];
+import { connect } from 'react-redux';
+import { fetchAppliedJobs } from '../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -51,28 +39,42 @@ const renderJobs = (jobs) => {
 	});
 };
 
-const CandidateJobs = () => {
-	return (
-		<Container>
-			<Row>
-				<Col xs={10}>
-					<Link to='/'>
-						<p>Job Finder</p>
-					</Link>
-				</Col>
+class CandidateJobs extends Component {
+	componentDidMount() {
+		const candidate = this.props.loggedInUser;
+		this.props.fetchAppliedJobs(candidate);
+	}
 
-				<Col xs={2}>
-					<Link to='/'>
-						<p>Log Out</p>
-					</Link>
-				</Col>
-			</Row>
+	render() {
+		return (
+			<Container>
+				<Row>
+					<Col xs={10}>
+						<Link to='/'>
+							<p>Job Finder</p>
+						</Link>
+					</Col>
 
-			<Container style={styles.jobsListContainer}>
-				{renderJobs(appliedJobs)}
+					<Col xs={2}>
+						<Link to='/'>
+							<p>Log Out</p>
+						</Link>
+					</Col>
+				</Row>
+
+				<Container style={styles.jobsListContainer}>
+					{renderJobs(this.props.appliedJobs)}
+				</Container>
 			</Container>
-		</Container>
-	);
+		);
+	}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		loggedInUser: state.loggedInUser,
+		appliedJobs: state.appliedJobs,
+	};
 };
 
-export default CandidateJobs;
+export default connect(mapStateToProps, { fetchAppliedJobs })(CandidateJobs);

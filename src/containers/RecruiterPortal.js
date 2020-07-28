@@ -1,27 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-
-const jobs = [
-	{
-		title: 'Software Developer Intern',
-		description:
-			'Candidate should have a good understanding of Computer Science fundamentals',
-		location: 'Remote',
-	},
-	{
-		title: 'Senior SDE',
-		description: 'Experience in building complex large scale systems',
-		location: 'London(UK)',
-	},
-	{
-		title: 'SDE 1',
-		description:
-			'Strong problem solving and analysing skills, DSA, OOPS, DBMS, OS',
-		location: 'Hyderabad(India)',
-	},
-];
+import { fetchPostedJobs } from '../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -47,7 +28,15 @@ const renderJobs = (jobs) => {
 	return jobs.map((job, index) => {
 		return (
 			<div key={index}>
-				<Link to='/job/candidates' style={styles.link}>
+				<Link
+					to={{
+						pathname: '/job/candidates',
+						state: {
+							job,
+						},
+					}}
+					style={styles.link}
+				>
 					<Row style={styles.job}>
 						<Col>{job.title}</Col>
 						<Col>{job.description}</Col>
@@ -68,36 +57,46 @@ const renderJobs = (jobs) => {
 	});
 };
 
-const RecruiterPortal = (props) => {
-	return (
-		<Container>
-			<Row>
-				<Col xs={8}>
-					<Link to='/'>
-						<p>Job Finder</p>
-					</Link>
-				</Col>
-				<Col xs={2}>
-					<Link to='/post/job'>
-						<p>Post a Job</p>
-					</Link>
-				</Col>
-				<Col xs={2}>
-					<Link to='/'>
-						<p>Log Out</p>
-					</Link>
-				</Col>
-			</Row>
+class RecruiterPortal extends Component {
+	componentDidMount() {
+		const recruiter = this.props.loggedInUser;
+		this.props.fetchPostedJobs(recruiter);
+	}
 
-			<Container style={styles.jobsListContainer}>{renderJobs(jobs)}</Container>
-		</Container>
-	);
-};
+	render() {
+		return (
+			<Container>
+				<Row>
+					<Col xs={8}>
+						<Link to='/'>
+							<p>Job Finder</p>
+						</Link>
+					</Col>
+					<Col xs={2}>
+						<Link to='/post/job'>
+							<p>Post a Job</p>
+						</Link>
+					</Col>
+					<Col xs={2}>
+						<Link to='/'>
+							<p>Log Out</p>
+						</Link>
+					</Col>
+				</Row>
+
+				<Container style={styles.jobsListContainer}>
+					{renderJobs(this.props.postedJobs)}
+				</Container>
+			</Container>
+		);
+	}
+}
 
 const mapStateToProps = (state) => {
 	return {
 		loggedInUser: state.loggedInUser,
+		postedJobs: state.postedJobs,
 	};
 };
 
-export default connect(mapStateToProps)(RecruiterPortal);
+export default connect(mapStateToProps, { fetchPostedJobs })(RecruiterPortal);

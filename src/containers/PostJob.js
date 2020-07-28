@@ -1,6 +1,10 @@
-import React from 'react';
-import { Button, Container, Col, Form, Row } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Container, Col, Row } from 'react-bootstrap';
+
 import { Link } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { postJob } from '../actions';
 
 const styles = {
 	homeLink: {
@@ -12,47 +16,97 @@ const styles = {
 	},
 };
 
-const PostJob = () => {
-	return (
-		<Container>
-			<Row style={styles.headerRow}>
-				<Col>
-					<Link to='/' style={styles.homeLink}>
-						<h1>Job Finder</h1>
-					</Link>
-				</Col>
-			</Row>
+class PostJob extends Component {
+	renderError({ error, touched }) {
+		if (touched && error) {
+			return (
+				<div className='ui error message'>
+					<div className='ui header'>{error}</div>
+				</div>
+			);
+		}
+	}
 
-			<Row>
-				<Col>
-					<Form>
-						<Form.Group controlId='formBasicTitle'>
-							<Form.Label>Title</Form.Label>
-							<Form.Control
-								type='text'
-								placeholder='Job title'
-								required={true}
+	renderInput = ({ input, label, meta, type = 'text' }) => {
+		const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
+		return (
+			<div className={className}>
+				<label>{label}</label>
+				<input {...input} type={type} />
+				{this.renderError(meta)}
+			</div>
+		);
+	};
+
+	onSubmit = (formValues) => {
+		const recruiter = this.props.loggedInUser;
+		this.props.postJob(formValues, recruiter);
+	};
+
+	render() {
+		return (
+			<Container>
+				<Row style={styles.headerRow}>
+					<Col>
+						<Link to='/' style={styles.homeLink}>
+							<h1>Job Finder</h1>
+						</Link>
+					</Col>
+				</Row>
+
+				<Row>
+					<Col>
+						<form
+							onSubmit={this.props.handleSubmit(this.onSubmit)}
+							className='ui form error'
+						>
+							<Field name='title' component={this.renderInput} label='Title' />
+
+							<Field
+								name='description'
+								component={this.renderInput}
+								label='Description'
 							/>
-						</Form.Group>
 
-						<Form.Group controlId='formBasicDescription'>
-							<Form.Label>Description</Form.Label>
-							<Form.Control type='text' placeholder='Job description' />
-						</Form.Group>
+							<Field
+								name='location'
+								component={this.renderInput}
+								label='Location'
+							/>
 
-						<Form.Group controlId='formBasicLocation'>
-							<Form.Label>Location</Form.Label>
-							<Form.Control type='text' placeholder='Job location' />
-						</Form.Group>
+							<button className='ui button primary'>Post Job</button>
+						</form>
+					</Col>{' '}
+				</Row>
+			</Container>
+		);
+	}
+}
 
-						<Button variant='primary' type='submit'>
-							Post Job
-						</Button>
-					</Form>
-				</Col>{' '}
-			</Row>
-		</Container>
-	);
+const validate = (formValues) => {
+	const errors = {};
+	if (!formValues.title) {
+		errors.title = 'You must enter a title';
+	}
+	if (!formValues.description) {
+		errors.description = 'You must enter a description';
+	}
+	if (!formValues.location) {
+		errors.location = 'You must enter a location';
+	}
+
+	return errors;
 };
 
-export default PostJob;
+const mapStateToProps = (state) => {
+	return {
+		loggedInUser: state.loggedInUser,
+	};
+};
+
+const formWrapped = reduxForm({
+	form: 'postJob',
+	validate,
+})(PostJob);
+
+export default connect(mapStateToProps, { postJob })(formWrapped);

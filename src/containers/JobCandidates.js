@@ -1,47 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-
-const candidates = [
-	{
-		name: 'candidate1',
-		email: 'candidate1@gmail.com',
-		password: 'candidate1',
-		phone: '9384855245',
-		skills: 'html, c++, js',
-		role: 3,
-	},
-	{
-		name: 'candidate2',
-		email: 'candidate2@gmail.com',
-		password: 'candidate2',
-		phone: '9248285239',
-		skills: 'python, c++, java',
-		role: 3,
-	},
-	{
-		name: 'candidate3',
-		email: 'candidate3@gmail.com',
-		password: 'candidate3',
-		phone: '3464256245',
-		skills: 'c#, devops, db, os',
-		role: 3,
-	},
-	{
-		name: 'candidate4',
-		email: 'candidate4@gmail.com',
-		password: 'candidate4',
-		phone: '895398245',
-		skills: 'dsa, system design, oops',
-		role: 3,
-	},
-];
-const job = {
-	title: 'SDE 1',
-	description:
-		'Strong problem solving and analysing skills, DSA, OOPS, DBMS, OS',
-	location: 'Hyderabad(India)',
-};
+import { connect } from 'react-redux';
+import { fetchJobCandidates } from '../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -76,36 +37,54 @@ const renderCandidates = (candidates) => {
 	});
 };
 
-const JobCandidates = () => {
-	return (
-		<Container>
-			<Row>
-				<Col xs={10}>
-					<Link to='/'>
-						<p>Job Finder</p>
-					</Link>
-				</Col>
+class JobCandidates extends Component {
+	componentDidMount() {
+		const recruiter = this.props.loggedInUser;
+		const { job } = this.props.location.state;
 
-				<Col xs={2}>
-					<Link to='/'>
-						<p>Log Out</p>
-					</Link>
-				</Col>
-			</Row>
+		this.props.fetchJobCandidates(recruiter, job);
+	}
 
-			<Container style={styles.jobContainer}>
+	render() {
+		const { job } = this.props.location.state;
+
+		return (
+			<Container>
 				<Row>
-					<Col xs={2}>{job.title}</Col>
-					<Col xs={8}>{job.description}</Col>
-					<Col xs={2}>{job.location}</Col>
-				</Row>
-			</Container>
+					<Col xs={10}>
+						<Link to='/'>
+							<p>Job Finder</p>
+						</Link>
+					</Col>
 
-			<Container style={styles.candidatesListContainer}>
-				{renderCandidates(candidates)}
+					<Col xs={2}>
+						<Link to='/'>
+							<p>Log Out</p>
+						</Link>
+					</Col>
+				</Row>
+
+				<Container style={styles.jobContainer}>
+					<Row>
+						<Col xs={2}>{job.title}</Col>
+						<Col xs={8}>{job.description}</Col>
+						<Col xs={2}>{job.location}</Col>
+					</Row>
+				</Container>
+
+				<Container style={styles.candidatesListContainer}>
+					{renderCandidates(this.props.jobCandidates)}
+				</Container>
 			</Container>
-		</Container>
-	);
+		);
+	}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		loggedInUser: state.loggedInUser,
+		jobCandidates: state.jobCandidates,
+	};
 };
 
-export default JobCandidates;
+export default connect(mapStateToProps, { fetchJobCandidates })(JobCandidates);

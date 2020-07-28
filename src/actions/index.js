@@ -28,3 +28,80 @@ export const logIn = (formValues, userType) => async (dispatch) => {
 		history.push('/admin/portal');
 	}
 };
+
+export const postJob = (formValues, recruiter) => async (dispatch) => {
+	const response = await request.post(`/jobs`, formValues, {
+		headers: {
+			authToken: recruiter.authToken,
+		},
+	});
+	dispatch({
+		type: 'POST_JOB',
+		payload: response.data,
+	});
+	history.push('/recruiter/portal');
+};
+
+export const fetchPostedJobs = (recruiter) => async (dispatch) => {
+	const response = await request.get('/recruiters/jobs', {
+		headers: {
+			authToken: recruiter.authToken,
+		},
+	});
+	dispatch({
+		type: 'FETCH_POSTED_JOBS',
+		payload: response.data,
+	});
+};
+
+export const fetchAvailableJobs = (candidate) => async (dispatch) => {
+	const response = await request.get('/candidates/jobs', {
+		headers: {
+			authToken: candidate.authToken,
+		},
+	});
+	dispatch({
+		type: 'FETCH_AVAILABLE_JOBS',
+		payload: response.data,
+	});
+};
+
+export const applyToJob = (candidate, job) => async (dispatch) => {
+	await request.post(
+		`/jobs/apply/${job.uuid}`,
+		{},
+		{
+			headers: {
+				authToken: candidate.authToken,
+			},
+		}
+	);
+	dispatch({
+		type: 'APPLY_TO_JOB',
+		payload: { job },
+	});
+};
+
+export const fetchAppliedJobs = (candidate) => async (dispatch) => {
+	const response = await request.get(`/candidates/applied/jobs`, {
+		headers: {
+			authToken: candidate.authToken,
+		},
+	});
+	dispatch({
+		type: 'FETCH_APPLIED_JOBS',
+		payload: response.data,
+	});
+};
+
+export const fetchJobCandidates = (recruiter, job) => async (dispatch) => {
+	const response = await request.get(`/candidates/${job.uuid}`, {
+		headers: {
+			authToken: recruiter.authToken,
+		},
+	});
+	dispatch({
+		type: 'FETCH_JOB_CANDIDATES',
+		payload: response.data,
+	});
+};
