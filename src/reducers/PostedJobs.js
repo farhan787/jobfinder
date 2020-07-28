@@ -6,6 +6,9 @@ export default (state = [], action) => {
 		case 'DELETE_RECRUITER_JOB':
 			return state.filter((job) => job.uuid !== action.payload.uuid);
 
+		case 'LOG_OUT':
+			return [];
+
 		default:
 			return state;
 	}

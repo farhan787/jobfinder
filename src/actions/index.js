@@ -29,6 +29,14 @@ export const logIn = (formValues, userType) => async (dispatch) => {
 	}
 };
 
+export const logOut = () => (dispatch) => {
+	localStorage.removeItem('state');
+	dispatch({
+		type: 'LOG_OUT',
+	});
+	history.push('/');
+};
+
 export const postJob = (formValues, recruiter) => async (dispatch) => {
 	const response = await request.post(`/jobs`, formValues, {
 		headers: {

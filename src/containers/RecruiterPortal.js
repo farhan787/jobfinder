@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { deleteRecruiterJob, fetchPostedJobs } from '../actions';
+import { deleteRecruiterJob, fetchPostedJobs, logOut } from '../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -105,4 +105,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
 	deleteRecruiterJob,
 	fetchPostedJobs,
+	logOut,
 })(RecruiterPortal);

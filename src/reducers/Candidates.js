@@ -8,6 +8,9 @@ export default (state = [], action) => {
 				(candidate) => candidate.uuid !== action.payload.uuid
 			);
 
+		case 'LOG_OUT':
+			return [];
+
 		default:
 			return state;
 	}

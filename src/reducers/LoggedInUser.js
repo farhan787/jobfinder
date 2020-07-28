@@ -6,6 +6,9 @@ export default (state = {}, action) => {
 				userType: action.payload.userType,
 			};
 
+		case 'LOG_OUT':
+			return {};
+
 		default:
 			return state;
 	}
