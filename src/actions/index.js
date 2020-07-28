@@ -107,16 +107,84 @@ export const fetchJobCandidates = (recruiter, job) => async (dispatch) => {
 };
 
 export const deleteRecruiterJob = (recruiter, job) => async (dispatch) => {
-	const response = await request.delete(`/jobs/${job.uuid}`, {
+	await request.delete(`/jobs/${job.uuid}`, {
 		headers: {
 			authToken: recruiter.authToken,
 		},
 	});
-	console.log('response');
-	console.log(response);
 
 	dispatch({
 		type: 'DELETE_RECRUITER_JOB',
 		payload: job,
+	});
+};
+
+export const fetchAdminJobs = (admin) => async (dispatch) => {
+	const response = await request.get('/jobs', {
+		headers: { authToken: admin.authToken },
+	});
+
+	dispatch({
+		type: 'FETCH_ADMIN_JOBS',
+		payload: response.data,
+	});
+};
+
+export const deleteAdminJob = (admin, job) => async (dispatch) => {
+	await request.delete(`/jobs/${job.uuid}`, {
+		headers: {
+			authToken: admin.authToken,
+		},
+	});
+
+	dispatch({
+		type: 'DELETE_ADMIN_JOB',
+		payload: job,
+	});
+};
+
+export const fetchAdminCandidates = (admin) => async (dispatch) => {
+	const response = await request.get('/candidates', {
+		headers: { authToken: admin.authToken },
+	});
+	dispatch({
+		type: 'FETCH_ADMIN_CANDIDATES',
+		payload: response.data,
+	});
+};
+
+export const deleteAdminCandidate = (admin, candidate) => async (dispatch) => {
+	await request.delete(`/candidates/${candidate.uuid}`, {
+		headers: {
+			authToken: admin.authToken,
+		},
+	});
+
+	dispatch({
+		type: 'DELETE_ADMIN_CANDIDATE',
+		payload: candidate,
+	});
+};
+
+export const fetchAdminRecruiters = (admin) => async (dispatch) => {
+	const response = await request.get('/recruiters', {
+		headers: { authToken: admin.authToken },
+	});
+	dispatch({
+		type: 'FETCH_ADMIN_RECRUITERS',
+		payload: response.data,
+	});
+};
+
+export const deleteAdminRecruiter = (admin, recruiter) => async (dispatch) => {
+	await request.delete(`/recruiters/${recruiter.uuid}`, {
+		headers: {
+			authToken: admin.authToken,
+		},
+	});
+
+	dispatch({
+		type: 'DELETE_ADMIN_RECRUITER',
+		payload: recruiter,
 	});
 };

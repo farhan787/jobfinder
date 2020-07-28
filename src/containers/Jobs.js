@@ -1,26 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
-
-const jobs = [
-	{
-		title: 'Software Developer Intern',
-		description:
-			'Candidate should have a good understanding of Computer Science fundamentals',
-		location: 'Remote',
-	},
-	{
-		title: 'Senior SDE',
-		description: 'Experience in building complex large scale systems',
-		location: 'London(UK)',
-	},
-	{
-		title: 'SDE 1',
-		description:
-			'Strong problem solving and analysing skills, DSA, OOPS, DBMS, OS',
-		location: 'Hyderabad(India)',
-	},
-];
+import { connect } from 'react-redux';
+import { deleteAdminJob, fetchAdminJobs } from '../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -42,48 +24,69 @@ const styles = {
 	},
 };
 
-const renderJobs = (jobs) => {
-	return jobs.map((job, index) => {
+class Jobs extends Component {
+	componentDidMount() {
+		const admin = this.props.loggedInUser;
+		this.props.fetchAdminJobs(admin);
+	}
+
+	renderJobs = (jobs) => {
+		const admin = this.props.loggedInUser;
+
+		return jobs.map((job, index) => {
+			return (
+				<div key={index}>
+					<Row style={styles.job}>
+						<Col>{job.title}</Col>
+						<Col>{job.description}</Col>
+						<Col>{job.location}</Col>
+					</Row>
+					<Button
+						variant='danger'
+						style={styles.deleteJob}
+						onClick={() => {
+							this.props.deleteAdminJob(admin, job);
+							alert('Deleting job post');
+						}}
+					>
+						Delete
+					</Button>
+				</div>
+			);
+		});
+	};
+
+	render() {
 		return (
-			<div key={index}>
-				<Row style={styles.job}>
-					<Col>{job.title}</Col>
-					<Col>{job.description}</Col>
-					<Col>{job.location}</Col>
+			<Container>
+				<Row>
+					<Col xs={8}>
+						<Link to='/'>
+							<p>Job Finder</p>
+						</Link>
+					</Col>
+					<Col xs={2}>
+						<Link to='/'>
+							<p>Log Out</p>
+						</Link>
+					</Col>
 				</Row>
-				<Button
-					variant='danger'
-					style={styles.deleteJob}
-					onClick={() => {
-						alert('Deleting job post');
-					}}
-				>
-					Delete
-				</Button>
-			</div>
+
+				<Container style={styles.jobsListContainer}>
+					{this.renderJobs(this.props.jobs)}
+				</Container>
+			</Container>
 		);
-	});
+	}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		loggedInUser: state.loggedInUser,
+		jobs: state.jobs,
+	};
 };
 
-const Jobs = () => {
-	return (
-		<Container>
-			<Row>
-				<Col xs={8}>
-					<Link to='/'>
-						<p>Job Finder</p>
-					</Link>
-				</Col>
-				<Col xs={2}>
-					<Link to='/'>
-						<p>Log Out</p>
-					</Link>
-				</Col>
-			</Row>
-
-			<Container style={styles.jobsListContainer}>{renderJobs(jobs)}</Container>
-		</Container>
-	);
-};
-
-export default Jobs;
+export default connect(mapStateToProps, { deleteAdminJob, fetchAdminJobs })(
+	Jobs
+);

@@ -1,30 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
-
-const recruiters = [
-	{
-		name: 'recruiter1',
-		email: 'recruiter1@gmail.com',
-		password: 'recruiter1',
-		phone: '84758824',
-		role: 2,
-	},
-	{
-		name: 'recruiter2',
-		email: 'recruiter2@gmail.com',
-		password: 'recruiter2',
-		phone: '73898358',
-		role: 2,
-	},
-	{
-		name: 'recruiter3',
-		email: 'recruiter3@gmail.com',
-		password: 'recruiter3',
-		phone: '43624526',
-		role: 2,
-	},
-];
+import { connect } from 'react-redux';
+import { deleteAdminRecruiter, fetchAdminRecruiters } from '../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -47,52 +25,72 @@ const styles = {
 	},
 };
 
-const renderRecruiters = (recruiters) => {
-	return recruiters.map((recruiter) => {
+class Recruiters extends Component {
+	componentDidMount() {
+		const admin = this.props.loggedInUser;
+		this.props.fetchAdminRecruiters(admin);
+	}
+
+	renderRecruiters = (recruiters) => {
+		const admin = this.props.loggedInUser;
+
+		return recruiters.map((recruiter) => {
+			return (
+				<div key={recruiter.email}>
+					<Row style={styles.recruiter}>
+						<Col>{recruiter.name}</Col>
+						<Col>{recruiter.email}</Col>
+						<Col>{recruiter.phone}</Col>
+					</Row>
+
+					<Button
+						variant='danger'
+						style={styles.deleteJob}
+						onClick={() => {
+							this.props.deleteAdminRecruiter(admin, recruiter);
+							alert('Deleting recruiter');
+						}}
+					>
+						Delete
+					</Button>
+				</div>
+			);
+		});
+	};
+
+	render() {
 		return (
-			<div key={recruiter.email}>
-				<Row style={styles.recruiter}>
-					<Col>{recruiter.name}</Col>
-					<Col>{recruiter.email}</Col>
-					<Col>{recruiter.phone}</Col>
+			<Container>
+				<Row>
+					<Col xs={10}>
+						<Link to='/'>
+							<p>Job Finder</p>
+						</Link>
+					</Col>
+
+					<Col xs={2}>
+						<Link to='/'>
+							<p>Log Out</p>
+						</Link>
+					</Col>
 				</Row>
 
-				<Button
-					variant='danger'
-					style={styles.deleteJob}
-					onClick={() => {
-						alert('Deleting recruiter');
-					}}
-				>
-					Delete
-				</Button>
-			</div>
-		);
-	});
-};
-
-const Recruiters = () => {
-	return (
-		<Container>
-			<Row>
-				<Col xs={10}>
-					<Link to='/'>
-						<p>Job Finder</p>
-					</Link>
-				</Col>
-
-				<Col xs={2}>
-					<Link to='/'>
-						<p>Log Out</p>
-					</Link>
-				</Col>
-			</Row>
-
-			<Container style={styles.recruitersListContainer}>
-				{renderRecruiters(recruiters)}
+				<Container style={styles.recruitersListContainer}>
+					{this.renderRecruiters(this.props.recruiters)}
+				</Container>
 			</Container>
-		</Container>
-	);
+		);
+	}
+}
+
+const mapStateToProps = (state) => {
+	return {
+		loggedInUser: state.loggedInUser,
+		recruiters: state.recruiters,
+	};
 };
 
-export default Recruiters;
+export default connect(mapStateToProps, {
+	deleteAdminRecruiter,
+	fetchAdminRecruiters,
+})(Recruiters);

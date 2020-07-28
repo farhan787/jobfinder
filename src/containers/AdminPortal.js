@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -19,7 +20,7 @@ const styles = {
 	},
 };
 
-const AdminPortal = () => {
+const AdminPortal = (props) => {
 	return (
 		<Container>
 			<Row>
@@ -59,4 +60,10 @@ const AdminPortal = () => {
 	);
 };
 
-export default AdminPortal;
+const mapStateToProps = (state) => {
+	return {
+		loggedInUser: state.loggedInUser,
+	};
+};
+
+export default connect(mapStateToProps)(AdminPortal);
