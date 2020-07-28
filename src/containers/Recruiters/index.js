@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { deleteAdminCandidate, fetchAdminCandidates } from '../actions';
+import { deleteAdminRecruiter, fetchAdminRecruiters } from '../../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
-	candidatesListContainer: {
+	recruitersListContainer: {
 		marginTop: '50px',
 	},
-	candidate: {
+	recruiter: {
 		border: '1px solid black',
 		borderRadius: '6px',
 		margin: '10px',
@@ -25,30 +25,30 @@ const styles = {
 	},
 };
 
-class Candidates extends Component {
+class Recruiters extends Component {
 	componentDidMount() {
 		const admin = this.props.loggedInUser;
-		this.props.fetchAdminCandidates(admin);
+		this.props.fetchAdminRecruiters(admin);
 	}
 
-	renderCandidates = (candidates) => {
+	renderRecruiters = (recruiters) => {
 		const admin = this.props.loggedInUser;
 
-		return candidates.map((candidate) => {
+		return recruiters.map((recruiter) => {
 			return (
-				<div key={candidate.email}>
-					<Row style={styles.candidate}>
-						<Col>{candidate.name}</Col>
-						<Col>{candidate.skills}</Col>
-						<Col>{candidate.email}</Col>
+				<div key={recruiter.email}>
+					<Row style={styles.recruiter}>
+						<Col>{recruiter.name}</Col>
+						<Col>{recruiter.email}</Col>
+						<Col>{recruiter.phone}</Col>
 					</Row>
 
 					<Button
 						variant='danger'
 						style={styles.deleteJob}
 						onClick={() => {
-							this.props.deleteAdminCandidate(admin, candidate);
-							alert('Deleting candidate');
+							this.props.deleteAdminRecruiter(admin, recruiter);
+							alert('Deleting recruiter');
 						}}
 					>
 						Delete
@@ -75,8 +75,8 @@ class Candidates extends Component {
 					</Col>
 				</Row>
 
-				<Container style={styles.candidatesListContainer}>
-					{this.renderCandidates(this.props.candidates)}
+				<Container style={styles.recruitersListContainer}>
+					{this.renderRecruiters(this.props.recruiters)}
 				</Container>
 			</Container>
 		);
@@ -86,11 +86,11 @@ class Candidates extends Component {
 const mapStateToProps = (state) => {
 	return {
 		loggedInUser: state.loggedInUser,
-		candidates: state.candidates,
+		recruiters: state.recruiters,
 	};
 };
 
 export default connect(mapStateToProps, {
-	deleteAdminCandidate,
-	fetchAdminCandidates,
-})(Candidates);
+	deleteAdminRecruiter,
+	fetchAdminRecruiters,
+})(Recruiters);

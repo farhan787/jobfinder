@@ -1,6 +1,25 @@
 import request from '../apis';
 import history from '../history';
-import { LOG_IN, SIGN_UP } from './types';
+
+import {
+	LOG_IN,
+	SIGN_UP,
+	LOG_OUT,
+	POST_JOB,
+	FETCH_POSTED_JOBS,
+	FETCH_AVAILABLE_JOBS,
+	APPLY_TO_JOB,
+	FETCH_APPLIED_JOBS,
+	FETCH_JOB_CANDIDATES,
+	DELETE_RECRUITER_JOB,
+	FETCH_ADMIN_JOBS,
+	DELETE_ADMIN_JOB,
+	FETCH_ADMIN_CANDIDATES,
+	DELETE_ADMIN_CANDIDATE,
+	FETCH_ADMIN_RECRUITERS,
+	DELETE_ADMIN_RECRUITER,
+} from '../common/constants';
+
 import { users } from '../config';
 
 export const signUp = (formValues, userType) => async (dispatch) => {
@@ -21,18 +40,18 @@ export const logIn = (formValues, userType) => async (dispatch) => {
 	});
 
 	if (userType === users.candidate.type) {
-		history.push('/candidate/portal');
+		history.push('/candidate/dashboard');
 	} else if (userType === users.recruiter.type) {
-		history.push('/recruiter/portal');
+		history.push('/recruiter/dashboard');
 	} else if (userType === users.admin.type) {
-		history.push('/admin/portal');
+		history.push('/admin/dashboard');
 	}
 };
 
 export const logOut = () => (dispatch) => {
 	localStorage.removeItem('state');
 	dispatch({
-		type: 'LOG_OUT',
+		type: LOG_OUT,
 	});
 	history.push('/');
 };
@@ -44,10 +63,10 @@ export const postJob = (formValues, recruiter) => async (dispatch) => {
 		},
 	});
 	dispatch({
-		type: 'POST_JOB',
+		type: POST_JOB,
 		payload: response.data,
 	});
-	history.push('/recruiter/portal');
+	history.push('/recruiter/dashboard');
 };
 
 export const fetchPostedJobs = (recruiter) => async (dispatch) => {
@@ -57,7 +76,7 @@ export const fetchPostedJobs = (recruiter) => async (dispatch) => {
 		},
 	});
 	dispatch({
-		type: 'FETCH_POSTED_JOBS',
+		type: FETCH_POSTED_JOBS,
 		payload: response.data,
 	});
 };
@@ -69,7 +88,7 @@ export const fetchAvailableJobs = (candidate) => async (dispatch) => {
 		},
 	});
 	dispatch({
-		type: 'FETCH_AVAILABLE_JOBS',
+		type: FETCH_AVAILABLE_JOBS,
 		payload: response.data,
 	});
 };
@@ -85,7 +104,7 @@ export const applyToJob = (candidate, job) => async (dispatch) => {
 		}
 	);
 	dispatch({
-		type: 'APPLY_TO_JOB',
+		type: APPLY_TO_JOB,
 		payload: { job },
 	});
 };
@@ -97,7 +116,7 @@ export const fetchAppliedJobs = (candidate) => async (dispatch) => {
 		},
 	});
 	dispatch({
-		type: 'FETCH_APPLIED_JOBS',
+		type: FETCH_APPLIED_JOBS,
 		payload: response.data,
 	});
 };
@@ -109,7 +128,7 @@ export const fetchJobCandidates = (recruiter, job) => async (dispatch) => {
 		},
 	});
 	dispatch({
-		type: 'FETCH_JOB_CANDIDATES',
+		type: FETCH_JOB_CANDIDATES,
 		payload: response.data,
 	});
 };
@@ -122,7 +141,7 @@ export const deleteRecruiterJob = (recruiter, job) => async (dispatch) => {
 	});
 
 	dispatch({
-		type: 'DELETE_RECRUITER_JOB',
+		type: DELETE_RECRUITER_JOB,
 		payload: job,
 	});
 };
@@ -133,7 +152,7 @@ export const fetchAdminJobs = (admin) => async (dispatch) => {
 	});
 
 	dispatch({
-		type: 'FETCH_ADMIN_JOBS',
+		type: FETCH_ADMIN_JOBS,
 		payload: response.data,
 	});
 };
@@ -146,7 +165,7 @@ export const deleteAdminJob = (admin, job) => async (dispatch) => {
 	});
 
 	dispatch({
-		type: 'DELETE_ADMIN_JOB',
+		type: DELETE_ADMIN_JOB,
 		payload: job,
 	});
 };
@@ -156,7 +175,7 @@ export const fetchAdminCandidates = (admin) => async (dispatch) => {
 		headers: { authToken: admin.authToken },
 	});
 	dispatch({
-		type: 'FETCH_ADMIN_CANDIDATES',
+		type: FETCH_ADMIN_CANDIDATES,
 		payload: response.data,
 	});
 };
@@ -169,7 +188,7 @@ export const deleteAdminCandidate = (admin, candidate) => async (dispatch) => {
 	});
 
 	dispatch({
-		type: 'DELETE_ADMIN_CANDIDATE',
+		type: DELETE_ADMIN_CANDIDATE,
 		payload: candidate,
 	});
 };
@@ -179,7 +198,7 @@ export const fetchAdminRecruiters = (admin) => async (dispatch) => {
 		headers: { authToken: admin.authToken },
 	});
 	dispatch({
-		type: 'FETCH_ADMIN_RECRUITERS',
+		type: FETCH_ADMIN_RECRUITERS,
 		payload: response.data,
 	});
 };
@@ -192,7 +211,7 @@ export const deleteAdminRecruiter = (admin, recruiter) => async (dispatch) => {
 	});
 
 	dispatch({
-		type: 'DELETE_ADMIN_RECRUITER',
+		type: DELETE_ADMIN_RECRUITER,
 		payload: recruiter,
 	});
 };

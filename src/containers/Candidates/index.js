@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { deleteAdminJob, fetchAdminJobs } from '../actions';
+import { deleteAdminCandidate, fetchAdminCandidates } from '../../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
-	jobsListContainer: {
+	candidatesListContainer: {
 		marginTop: '50px',
 	},
-	job: {
+	candidate: {
 		border: '1px solid black',
 		borderRadius: '6px',
 		margin: '10px',
@@ -19,34 +19,36 @@ const styles = {
 		textDecoration: 'none',
 		color: 'black',
 	},
-	deleteJob: {
-		paddingLeft: '20px',
+	jobContainer: {
+		marginTop: '20px',
+		padding: '20px',
 	},
 };
 
-class Jobs extends Component {
+class Candidates extends Component {
 	componentDidMount() {
 		const admin = this.props.loggedInUser;
-		this.props.fetchAdminJobs(admin);
+		this.props.fetchAdminCandidates(admin);
 	}
 
-	renderJobs = (jobs) => {
+	renderCandidates = (candidates) => {
 		const admin = this.props.loggedInUser;
 
-		return jobs.map((job, index) => {
+		return candidates.map((candidate) => {
 			return (
-				<div key={index}>
-					<Row style={styles.job}>
-						<Col>{job.title}</Col>
-						<Col>{job.description}</Col>
-						<Col>{job.location}</Col>
+				<div key={candidate.email}>
+					<Row style={styles.candidate}>
+						<Col>{candidate.name}</Col>
+						<Col>{candidate.skills}</Col>
+						<Col>{candidate.email}</Col>
 					</Row>
+
 					<Button
 						variant='danger'
 						style={styles.deleteJob}
 						onClick={() => {
-							this.props.deleteAdminJob(admin, job);
-							alert('Deleting job post');
+							this.props.deleteAdminCandidate(admin, candidate);
+							alert('Deleting candidate');
 						}}
 					>
 						Delete
@@ -60,11 +62,12 @@ class Jobs extends Component {
 		return (
 			<Container>
 				<Row>
-					<Col xs={8}>
+					<Col xs={10}>
 						<Link to='/'>
 							<p>Job Finder</p>
 						</Link>
 					</Col>
+
 					<Col xs={2}>
 						<Link to='/'>
 							<p>Log Out</p>
@@ -72,8 +75,8 @@ class Jobs extends Component {
 					</Col>
 				</Row>
 
-				<Container style={styles.jobsListContainer}>
-					{this.renderJobs(this.props.jobs)}
+				<Container style={styles.candidatesListContainer}>
+					{this.renderCandidates(this.props.candidates)}
 				</Container>
 			</Container>
 		);
@@ -83,10 +86,11 @@ class Jobs extends Component {
 const mapStateToProps = (state) => {
 	return {
 		loggedInUser: state.loggedInUser,
-		jobs: state.jobs,
+		candidates: state.candidates,
 	};
 };
 
-export default connect(mapStateToProps, { deleteAdminJob, fetchAdminJobs })(
-	Jobs
-);
+export default connect(mapStateToProps, {
+	deleteAdminCandidate,
+	fetchAdminCandidates,
+})(Candidates);

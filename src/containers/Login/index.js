@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { passwordMinLength, users } from '../config';
+import { passwordMinLength, users } from '../../config';
 import { Container, Col, Row } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { signUp } from '../actions';
-
-const ALPHABET_SPACE_REGEX = /^[a-zA-Z ]*$/;
+import { logIn } from '../../actions';
 
 const styles = {
 	homeLink: {
@@ -19,7 +17,7 @@ const styles = {
 	},
 };
 
-class Signup extends Component {
+class Login extends Component {
 	renderError({ error, touched }) {
 		if (touched && error) {
 			return (
@@ -46,8 +44,10 @@ class Signup extends Component {
 			formValues.role = users.candidate.role;
 		} else if (formValues.userType === users.recruiter.type) {
 			formValues.role = users.recruiter.role;
+		} else if (formValues.userType === users.admin.type) {
+			formValues.role = users.admin.role;
 		}
-		this.props.signUp(formValues, formValues.userType);
+		this.props.logIn(formValues, formValues.userType);
 	};
 
 	render() {
@@ -67,8 +67,6 @@ class Signup extends Component {
 							onSubmit={this.props.handleSubmit(this.onSubmit)}
 							className='ui form error'
 						>
-							<Field name='name' component={this.renderInput} label='Name' />
-
 							<Field
 								name='email'
 								component={this.renderInput}
@@ -83,26 +81,14 @@ class Signup extends Component {
 								type='password'
 							/>
 
-							<Field name='phone' component={this.renderInput} label='Phone' />
-
-							<Field
-								name='skills'
-								component={this.renderInput}
-								label='Skills'
-							/>
-
 							<Field
 								name='userType'
 								component={this.renderInput}
-								label='candidate or recruiter??'
+								label='admin or candidate or recruiter??'
 							/>
 
-							<button className='ui button primary'>Signup</button>
+							<button className='ui button primary'>Login</button>
 						</form>
-
-						<Link to='/login'>
-							<small>Already have an account?</small>
-						</Link>
 					</Col>{' '}
 				</Row>
 			</Container>
@@ -112,42 +98,32 @@ class Signup extends Component {
 
 const validate = (formValues) => {
 	const errors = {};
-	if (!formValues.name) {
-		errors.name = 'You must enter a name';
-	}
-	if (formValues.name && !formValues.name.match(ALPHABET_SPACE_REGEX)) {
-		errors.name = 'Name can only contain alphabets';
-	}
-
 	if (!formValues.email) {
-		errors.email = 'You must enter a email';
+		errors.email = 'You must enter an email';
 	}
-
 	if (!formValues.password) {
 		errors.password = 'You must enter a password';
 	}
 	if (formValues.password && formValues.password.length < passwordMinLength) {
 		errors.password = 'Password must be at least 6 characters long';
 	}
-
-	if (!formValues.phone) {
-		errors.phone = 'You must enter a phone';
-	}
 	if (!formValues.userType) {
 		errors.userType = 'You must enter a user type';
 	}
 	if (
 		formValues.userType &&
-		![users.candidate.type, users.recruiter.type].includes(formValues.userType)
+		![users.admin.type, users.candidate.type, users.recruiter.type].includes(
+			formValues.userType
+		)
 	) {
-		errors.userType = 'User type can be either candidate or recruiter';
+		errors.userType = 'User type can be either admin or candidate or recruiter';
 	}
 	return errors;
 };
 
 const formWrapped = reduxForm({
-	form: 'signup',
+	form: 'login',
 	validate,
-})(Signup);
+})(Login);
 
-export default connect(null, { signUp })(formWrapped);
+export default connect(null, { logIn })(formWrapped);

@@ -1,18 +1,25 @@
+import {
+	LOG_OUT,
+	FETCH_AVAILABLE_JOBS,
+	APPLY_TO_JOB,
+	DELETE_RECRUITER_JOB,
+} from '../common/constants';
+
 export default (state = [], action) => {
 	switch (action.type) {
-		case 'FETCH_AVAILABLE_JOBS':
+		case FETCH_AVAILABLE_JOBS:
 			return action.payload.data;
 
-		case 'APPLY_TO_JOB':
+		case APPLY_TO_JOB:
 			if (state.length) {
 				return state.filter((job) => job.uuid !== action.payload.job.uuid);
 			}
 			return state;
 
-		case 'DELETE_RECRUITER_JOB':
+		case DELETE_RECRUITER_JOB:
 			return state.filter((job) => job.uuid !== action.payload.uuid);
 
-		case 'LOG_OUT':
+		case LOG_OUT:
 			return [];
 
 		default:

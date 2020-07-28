@@ -20,7 +20,7 @@ const styles = {
 	},
 };
 
-const AdminPortal = (props) => {
+const AdminDashboard = (props) => {
 	return (
 		<Container>
 			<Row>
@@ -66,4 +66,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(AdminPortal);
+export default connect(mapStateToProps)(AdminDashboard);

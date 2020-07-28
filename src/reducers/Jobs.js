@@ -1,15 +1,22 @@
+import {
+	POST_JOB,
+	FETCH_ADMIN_JOBS,
+	DELETE_ADMIN_JOB,
+	LOG_OUT,
+} from '../common/constants';
+
 export default (state = [], action) => {
 	switch (action.type) {
-		case 'POST_JOB':
+		case POST_JOB:
 			return [...state, action.payload.data];
 
-		case 'FETCH_ADMIN_JOBS':
+		case FETCH_ADMIN_JOBS:
 			return action.payload.data;
 
-		case 'DELETE_ADMIN_JOB':
+		case DELETE_ADMIN_JOB:
 			return state.filter((job) => job.uuid !== action.payload.uuid);
 
-		case 'LOG_OUT':
+		case LOG_OUT:
 			return [];
 
 		default:

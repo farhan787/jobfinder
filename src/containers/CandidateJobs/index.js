@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchAppliedJobs } from '../actions';
+import { fetchAppliedJobs } from '../../actions';
 
 const styles = {
 	row: { marginTop: '40px' },

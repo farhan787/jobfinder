@@ -4,7 +4,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { postJob } from '../actions';
+import { postJob } from '../../actions';
 
 const styles = {
 	homeLink: {

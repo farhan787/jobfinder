@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { applyToJob, fetchAvailableJobs } from '../actions';
+import { deleteRecruiterJob, fetchPostedJobs, logOut } from '../../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -19,37 +19,47 @@ const styles = {
 		textDecoration: 'none',
 		color: 'black',
 	},
-	applyJob: {
+	deleteJob: {
 		paddingLeft: '20px',
 	},
 };
 
-class CandidatePortal extends Component {
+class RecruiterDashboard extends Component {
 	componentDidMount() {
-		const candidate = this.props.loggedInUser;
-		this.props.fetchAvailableJobs(candidate);
+		const recruiter = this.props.loggedInUser;
+		this.props.fetchPostedJobs(recruiter);
 	}
 
 	renderJobs = (jobs) => {
-		const candidate = this.props.loggedInUser;
+		const recruiter = this.props.loggedInUser;
 
 		return jobs.map((job, index) => {
 			return (
 				<div key={index}>
-					<Row style={styles.job}>
-						<Col>{job.title}</Col>
-						<Col>{job.description}</Col>
-						<Col>{job.location}</Col>
-					</Row>
+					<Link
+						to={{
+							pathname: '/job/candidates',
+							state: {
+								job,
+							},
+						}}
+						style={styles.link}
+					>
+						<Row style={styles.job}>
+							<Col>{job.title}</Col>
+							<Col>{job.description}</Col>
+							<Col>{job.location}</Col>
+						</Row>
+					</Link>
 					<Button
-						variant='success'
-						style={styles.applyJob}
+						variant='danger'
+						style={styles.deleteJob}
 						onClick={() => {
-							this.props.applyToJob(candidate, job);
-							alert('Applied Successfully');
+							this.props.deleteRecruiterJob(recruiter, job);
+							alert('Deleting job post');
 						}}
 					>
-						Apply
+						Delete
 					</Button>
 				</div>
 			);
@@ -66,8 +76,8 @@ class CandidatePortal extends Component {
 						</Link>
 					</Col>
 					<Col xs={2}>
-						<Link to='/candidate/jobs'>
-							<p>See applied jobs</p>
+						<Link to='/post/job'>
+							<p>Post a Job</p>
 						</Link>
 					</Col>
 					<Col xs={2}>
@@ -78,7 +88,7 @@ class CandidatePortal extends Component {
 				</Row>
 
 				<Container style={styles.jobsListContainer}>
-					{this.renderJobs(this.props.availableJobs)}
+					{this.renderJobs(this.props.postedJobs)}
 				</Container>
 			</Container>
 		);
@@ -88,10 +98,12 @@ class CandidatePortal extends Component {
 const mapStateToProps = (state) => {
 	return {
 		loggedInUser: state.loggedInUser,
-		availableJobs: state.availableJobs,
+		postedJobs: state.postedJobs,
 	};
 };
 
-export default connect(mapStateToProps, { applyToJob, fetchAvailableJobs })(
-	CandidatePortal
-);
+export default connect(mapStateToProps, {
+	deleteRecruiterJob,
+	fetchPostedJobs,
+	logOut,
+})(RecruiterDashboard);
