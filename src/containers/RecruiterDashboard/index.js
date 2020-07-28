@@ -102,8 +102,10 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, {
+const actionCreators = {
 	deleteRecruiterJob,
 	fetchPostedJobs,
 	logOut,
-})(RecruiterDashboard);
+};
+
+export default connect(mapStateToProps, actionCreators)(RecruiterDashboard);

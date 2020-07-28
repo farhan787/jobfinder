@@ -150,4 +150,6 @@ const formWrapped = reduxForm({
 	validate,
 })(Signup);
 
-export default connect(null, { signUp })(formWrapped);
+const actionCreators = { signUp };
+
+export default connect(null, actionCreators)(formWrapped);

@@ -90,7 +90,9 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, {
+const actionCreators = {
 	deleteAdminRecruiter,
 	fetchAdminRecruiters,
-})(Recruiters);
+};
+
+export default connect(mapStateToProps, actionCreators)(Recruiters);

@@ -109,4 +109,6 @@ const formWrapped = reduxForm({
 	validate,
 })(PostJob);
 
-export default connect(mapStateToProps, { postJob })(formWrapped);
+const actionCreators = { postJob };
+
+export default connect(mapStateToProps, actionCreators)(formWrapped);

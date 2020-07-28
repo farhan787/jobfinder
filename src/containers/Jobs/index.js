@@ -87,6 +87,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { deleteAdminJob, fetchAdminJobs })(
-	Jobs
-);
+const actionCreators = { deleteAdminJob, fetchAdminJobs };
+
+export default connect(mapStateToProps, actionCreators)(Jobs);

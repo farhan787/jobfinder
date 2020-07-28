@@ -77,4 +77,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchAppliedJobs })(CandidateJobs);
+const actionCreators = { fetchAppliedJobs };
+
+export default connect(mapStateToProps, actionCreators)(CandidateJobs);

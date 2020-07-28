@@ -92,6 +92,9 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { applyToJob, fetchAvailableJobs })(
-	CandidateDashboard
-);
+const actionCreators = {
+	applyToJob,
+	fetchAvailableJobs,
+};
+
+export default connect(mapStateToProps, actionCreators)(CandidateDashboard);
