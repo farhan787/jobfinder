@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchPostedJobs } from '../actions';
+import { deleteRecruiterJob, fetchPostedJobs } from '../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -24,44 +24,47 @@ const styles = {
 	},
 };
 
-const renderJobs = (jobs) => {
-	return jobs.map((job, index) => {
-		return (
-			<div key={index}>
-				<Link
-					to={{
-						pathname: '/job/candidates',
-						state: {
-							job,
-						},
-					}}
-					style={styles.link}
-				>
-					<Row style={styles.job}>
-						<Col>{job.title}</Col>
-						<Col>{job.description}</Col>
-						<Col>{job.location}</Col>
-					</Row>
-				</Link>
-				<Button
-					variant='danger'
-					style={styles.deleteJob}
-					onClick={() => {
-						alert('Deleting job post');
-					}}
-				>
-					Delete
-				</Button>
-			</div>
-		);
-	});
-};
-
 class RecruiterPortal extends Component {
 	componentDidMount() {
 		const recruiter = this.props.loggedInUser;
 		this.props.fetchPostedJobs(recruiter);
 	}
+
+	renderJobs = (jobs) => {
+		const recruiter = this.props.loggedInUser;
+
+		return jobs.map((job, index) => {
+			return (
+				<div key={index}>
+					<Link
+						to={{
+							pathname: '/job/candidates',
+							state: {
+								job,
+							},
+						}}
+						style={styles.link}
+					>
+						<Row style={styles.job}>
+							<Col>{job.title}</Col>
+							<Col>{job.description}</Col>
+							<Col>{job.location}</Col>
+						</Row>
+					</Link>
+					<Button
+						variant='danger'
+						style={styles.deleteJob}
+						onClick={() => {
+							this.props.deleteRecruiterJob(recruiter, job);
+							alert('Deleting job post');
+						}}
+					>
+						Delete
+					</Button>
+				</div>
+			);
+		});
+	};
 
 	render() {
 		return (
@@ -85,7 +88,7 @@ class RecruiterPortal extends Component {
 				</Row>
 
 				<Container style={styles.jobsListContainer}>
-					{renderJobs(this.props.postedJobs)}
+					{this.renderJobs(this.props.postedJobs)}
 				</Container>
 			</Container>
 		);
@@ -99,4 +102,7 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { fetchPostedJobs })(RecruiterPortal);
+export default connect(mapStateToProps, {
+	deleteRecruiterJob,
+	fetchPostedJobs,
+})(RecruiterPortal);

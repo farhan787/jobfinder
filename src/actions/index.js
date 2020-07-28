@@ -105,3 +105,18 @@ export const fetchJobCandidates = (recruiter, job) => async (dispatch) => {
 		payload: response.data,
 	});
 };
+
+export const deleteRecruiterJob = (recruiter, job) => async (dispatch) => {
+	const response = await request.delete(`/jobs/${job.uuid}`, {
+		headers: {
+			authToken: recruiter.authToken,
+		},
+	});
+	console.log('response');
+	console.log(response);
+
+	dispatch({
+		type: 'DELETE_RECRUITER_JOB',
+		payload: job,
+	});
+};
