@@ -10,10 +10,14 @@ const styles = {
 		marginTop: '50px',
 	},
 	job: {
-		border: '1px solid black',
 		borderRadius: '6px',
 		margin: '10px',
 		padding: '15px',
+		fontFamily: 'sans-serif',
+		backgroundColor: '#F0F0ED',
+		fontSize: '1.2rem',
+		textAlign: 'center',
+		alignItem: 'center',
 	},
 	link: {
 		textDecoration: 'none',
@@ -46,21 +50,23 @@ class RecruiterDashboard extends Component {
 						style={styles.link}
 					>
 						<Row style={styles.job}>
-							<Col>{job.title}</Col>
-							<Col>{job.description}</Col>
-							<Col>{job.location}</Col>
+							<Col md={2}>{job.title}</Col>
+							<Col md={6}>{job.description}</Col>
+							<Col md={2}>{job.location}</Col>
+							<Col md={2}>
+								<Button
+									variant='danger'
+									style={styles.deleteJob}
+									onClick={() => {
+										this.props.deleteRecruiterJob(recruiter, job);
+										alert('Deleting job post');
+									}}
+								>
+									Delete
+								</Button>
+							</Col>
 						</Row>
 					</Link>
-					<Button
-						variant='danger'
-						style={styles.deleteJob}
-						onClick={() => {
-							this.props.deleteRecruiterJob(recruiter, job);
-							alert('Deleting job post');
-						}}
-					>
-						Delete
-					</Button>
 				</div>
 			);
 		});
@@ -69,22 +75,20 @@ class RecruiterDashboard extends Component {
 	render() {
 		return (
 			<Container>
-				<Row>
-					<Col xs={8}>
-						<Link to='/'>
-							<p>Job Finder</p>
+				<Row style={styles.headerRow}>
+					<Col>
+						<Link to='/' style={styles.homeLink}>
+							<h1>Job Finder</h1>
 						</Link>
 					</Col>
-					<Col xs={2}>
-						<Link to='/post/job'>
-							<p>Post a Job</p>
-						</Link>
-					</Col>
-					<Col xs={2}>
-						<Link to='/'>
-							<p>Log Out</p>
-						</Link>
-					</Col>
+					<Row>
+						<Col>
+							<Link to='/post/job'>Post a Job</Link>
+						</Col>
+						<Col>
+							<Link to='/'>Logout</Link>
+						</Col>
+					</Row>
 				</Row>
 
 				<Container style={styles.jobsListContainer}>

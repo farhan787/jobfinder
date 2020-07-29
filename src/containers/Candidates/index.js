@@ -10,10 +10,14 @@ const styles = {
 		marginTop: '50px',
 	},
 	candidate: {
-		border: '1px solid black',
 		borderRadius: '6px',
 		margin: '10px',
 		padding: '15px',
+		fontFamily: 'sans-serif',
+		backgroundColor: '#F0F0ED',
+		fontSize: '1.2rem',
+		textAlign: 'center',
+		alignItem: 'center',
 	},
 	link: {
 		textDecoration: 'none',
@@ -38,21 +42,22 @@ class Candidates extends Component {
 			return (
 				<div key={candidate.email}>
 					<Row style={styles.candidate}>
-						<Col>{candidate.name}</Col>
-						<Col>{candidate.skills}</Col>
-						<Col>{candidate.email}</Col>
+						<Col md={2}>{candidate.name}</Col>
+						<Col md={4}>{candidate.skills}</Col>
+						<Col md={4}>{candidate.email}</Col>
+						<Col md={2}>
+							<Button
+								variant='danger'
+								style={styles.deleteJob}
+								onClick={() => {
+									this.props.deleteAdminJob(admin, candidate);
+									alert('Deleting candidate');
+								}}
+							>
+								Delete
+							</Button>
+						</Col>
 					</Row>
-
-					<Button
-						variant='danger'
-						style={styles.deleteJob}
-						onClick={() => {
-							this.props.deleteAdminCandidate(admin, candidate);
-							alert('Deleting candidate');
-						}}
-					>
-						Delete
-					</Button>
 				</div>
 			);
 		});
@@ -61,18 +66,17 @@ class Candidates extends Component {
 	render() {
 		return (
 			<Container>
-				<Row>
-					<Col xs={10}>
-						<Link to='/'>
-							<p>Job Finder</p>
+				<Row style={styles.headerRow}>
+					<Col>
+						<Link to='/' style={styles.homeLink}>
+							<h1>Job Finder</h1>
 						</Link>
 					</Col>
-
-					<Col xs={2}>
-						<Link to='/'>
-							<p>Log Out</p>
-						</Link>
-					</Col>
+					<Row>
+						<Col>
+							<Link to='/'>Logout</Link>
+						</Col>
+					</Row>
 				</Row>
 
 				<Container style={styles.candidatesListContainer}>

@@ -97,7 +97,7 @@ class Signup extends Component {
 				</Row>
 
 				<Row>
-					<Col>
+					<Col md={{ span: 6, offset: 3 }}>
 						<form
 							onSubmit={this.props.handleSubmit(this.onSubmit)}
 							className='ui form error'

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { passwordMinLength, users } from '../../config';
 import { Container, Col, Row } from 'react-bootstrap';
+import history from '../../history';
 
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
@@ -43,6 +44,19 @@ const validate = (formValues) => {
 };
 
 class Login extends Component {
+	componentDidMount() {
+		const user = this.props.loggedInUser;
+		if (user) {
+			if (user.userType === users.admin.type) {
+				history.push('/admin/dashboard');
+			} else if (user.userType === users.candidate.type) {
+				history.push('/candidate/dashboard');
+			} else if (user.userType === users.recruiter.type) {
+				history.push('/recruiter/dashboard');
+			}
+		}
+	}
+
 	renderError({ error, touched }) {
 		if (touched && error) {
 			return (
@@ -87,7 +101,7 @@ class Login extends Component {
 				</Row>
 
 				<Row>
-					<Col>
+					<Col md={{ span: 6, offset: 3 }}>
 						<form
 							onSubmit={this.props.handleSubmit(this.onSubmit)}
 							className='ui form error'
@@ -121,6 +135,12 @@ class Login extends Component {
 	}
 }
 
+const mapStateToProps = (state) => {
+	return {
+		loggedInUser: state.loggedInUser,
+	};
+};
+
 const formWrapped = reduxForm({
 	form: 'login',
 	validate,
@@ -128,4 +148,4 @@ const formWrapped = reduxForm({
 
 const actionCreators = { logIn };
 
-export default connect(null, actionCreators)(formWrapped);
+export default connect(mapStateToProps, actionCreators)(formWrapped);

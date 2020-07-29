@@ -7,6 +7,7 @@ const styles = {
 	row: { marginTop: '40px' },
 	entitiesListContainer: {
 		marginTop: '50px',
+		textAlign: 'center',
 	},
 	entity: {
 		border: '1px solid black',
@@ -18,40 +19,58 @@ const styles = {
 		textDecoration: 'none',
 		color: 'black',
 	},
+	entitiesList: {
+		textDecoration: 'none',
+		borderRadius: '8px',
+		margin: '20px',
+		padding: '15px',
+		fontSize: '1.7rem',
+		backgroundColor: '#ecf0f1',
+		color: 'black',
+		fontFamily: 'EB Garamond',
+		textAlign: 'center',
+		width: '200',
+	},
+	verticalCenter: {
+		margin: '0',
+		position: 'absolute',
+		top: '50%',
+		msTransform: 'translateY(-50%)',
+		transform: 'translateY(-50%)',
+	},
 };
 
 const AdminDashboard = (props) => {
 	return (
 		<Container>
-			<Row>
-				<Col xs={10}>
-					<Link to='/'>
-						<p>Job Finder</p>
+			<Row style={styles.headerRow}>
+				<Col>
+					<Link to='/' style={styles.homeLink}>
+						<h1>Job Finder</h1>
 					</Link>
 				</Col>
-
-				<Col xs={2}>
-					<Link to='/'>
-						<p>Log Out</p>
-					</Link>
-				</Col>
+				<Row>
+					<Col>
+						<Link to='/'>Logout</Link>
+					</Col>
+				</Row>
 			</Row>
 
-			<Container style={styles.entitiesListContainer}>
-				<Link to='/jobs' style={styles.link}>
-					<Row style={styles.entity}>
+			<Container style={(styles.entitiesListContainer, styles.verticalCenter)}>
+				<Link to='/jobs'>
+					<Row style={styles.entitiesList}>
 						<Col>Jobs</Col>
 					</Row>
 				</Link>
 
-				<Link to='/candidates' style={styles.link}>
-					<Row style={styles.entity}>
+				<Link to='/candidates'>
+					<Row style={styles.entitiesList}>
 						<Col>Candidates</Col>
 					</Row>
 				</Link>
 
-				<Link to='/recruiters' style={styles.link}>
-					<Row style={styles.entity}>
+				<Link to='/recruiters'>
+					<Row style={styles.entitiesList}>
 						<Col>Recruiters</Col>
 					</Row>
 				</Link>

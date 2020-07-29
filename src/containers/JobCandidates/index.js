@@ -10,10 +10,14 @@ const styles = {
 		marginTop: '50px',
 	},
 	candidate: {
-		border: '1px solid black',
 		borderRadius: '6px',
 		margin: '10px',
 		padding: '15px',
+		fontFamily: 'sans-serif',
+		backgroundColor: '#F0F0ED',
+		fontSize: '1.2rem',
+		textAlign: 'center',
+		alignItem: 'center',
 	},
 	link: {
 		textDecoration: 'none',
@@ -29,9 +33,9 @@ const renderCandidates = (candidates) => {
 	return candidates.map((candidate) => {
 		return (
 			<Row style={styles.candidate} key={candidate.email}>
-				<Col>{candidate.name}</Col>
-				<Col>{candidate.skills}</Col>
-				<Col>{candidate.email}</Col>
+				<Col md={2}>{candidate.name}</Col>
+				<Col md={6}>{candidate.skills}</Col>
+				<Col md={4}>{candidate.email}</Col>
 			</Row>
 		);
 	});
@@ -50,27 +54,21 @@ class JobCandidates extends Component {
 
 		return (
 			<Container>
-				<Row>
-					<Col xs={10}>
-						<Link to='/'>
-							<p>Job Finder</p>
+				<Row style={styles.headerRow}>
+					<Col>
+						<Link to='/' style={styles.homeLink}>
+							<h1>Job Finder</h1>
 						</Link>
 					</Col>
-
-					<Col xs={2}>
-						<Link to='/'>
-							<p>Log Out</p>
-						</Link>
-					</Col>
-				</Row>
-
-				<Container style={styles.jobContainer}>
 					<Row>
-						<Col xs={2}>{job.title}</Col>
-						<Col xs={8}>{job.description}</Col>
-						<Col xs={2}>{job.location}</Col>
+						<Col>
+							<Link to='/post/job'>Post a Job</Link>
+						</Col>
+						<Col>
+							<Link to='/'>Logout</Link>
+						</Col>
 					</Row>
-				</Container>
+				</Row>
 
 				<Container style={styles.candidatesListContainer}>
 					{renderCandidates(this.props.jobCandidates)}
