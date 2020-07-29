@@ -52,9 +52,8 @@ class Candidates extends Component {
 						<Col md={2}>
 							<Button
 								variant='danger'
-								style={styles.deleteJob}
 								onClick={() => {
-									this.props.deleteAdminJob(admin, candidate);
+									this.props.deleteAdminCandidate(admin, candidate);
 									alert('Deleting candidate');
 								}}
 							>

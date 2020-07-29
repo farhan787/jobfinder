@@ -86,7 +86,13 @@ class Login extends Component {
 		} else if (formValues.userType === users.admin.type) {
 			formValues.role = users.admin.role;
 		}
-		this.props.logIn(formValues, formValues.userType);
+
+		this.props
+			.logIn(formValues, formValues.userType)
+			.then((response) => {})
+			.catch((err) => {
+				alert('invalid email or password');
+			});
 	};
 
 	render() {

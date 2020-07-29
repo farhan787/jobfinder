@@ -55,7 +55,12 @@ class PostJob extends Component {
 
 	onSubmit = (formValues) => {
 		const recruiter = this.props.loggedInUser;
-		this.props.postJob(formValues, recruiter);
+		this.props
+			.postJob(formValues, recruiter)
+			.then((response) => {})
+			.catch((err) => {
+				alert('something went wrong, try again!');
+			});
 	};
 
 	render() {

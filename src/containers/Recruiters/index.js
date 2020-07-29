@@ -52,7 +52,6 @@ class Recruiters extends Component {
 						<Col md={2}>
 							<Button
 								variant='danger'
-								style={styles.deleteJob}
 								onClick={() => {
 									this.props.deleteAdminRecruiter(admin, recruiter);
 									alert('Deleting recruiter');

@@ -34,6 +34,7 @@ export const signUp = (formValues, userType) => async (dispatch) => {
 export const logIn = (formValues, userType) => async (dispatch) => {
 	const response = await request.post(`/${userType}s/login`, formValues);
 	if (response) response.data.userType = userType;
+
 	dispatch({
 		type: LOG_IN,
 		payload: response.data,

@@ -23,9 +23,6 @@ const styles = {
 		textDecoration: 'none',
 		color: 'black',
 	},
-	deleteJob: {
-		paddingLeft: '20px',
-	},
 };
 
 class RecruiterDashboard extends Component {
@@ -56,7 +53,6 @@ class RecruiterDashboard extends Component {
 							<Col md={2}>
 								<Button
 									variant='danger'
-									style={styles.deleteJob}
 									onClick={() => {
 										this.props.deleteRecruiterJob(recruiter, job);
 										alert('Deleting job post');

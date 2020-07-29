@@ -25,9 +25,6 @@ const styles = {
 		textDecoration: 'none',
 		color: 'black',
 	},
-	applyJob: {
-		paddingLeft: '20px',
-	},
 	homeLink: {
 		textDecoration: 'none',
 	},
@@ -63,7 +60,6 @@ class CandidateDashboard extends Component {
 						<Col md={2}>
 							<Button
 								variant='success'
-								style={styles.applyJob}
 								onClick={() => {
 									this.props.applyToJob(candidate, job);
 									alert('Applied Successfully');

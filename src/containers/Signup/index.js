@@ -82,7 +82,12 @@ class Signup extends Component {
 		} else if (formValues.userType === users.recruiter.type) {
 			formValues.role = users.recruiter.role;
 		}
-		this.props.signUp(formValues, formValues.userType);
+		this.props
+			.signUp(formValues, formValues.userType)
+			.then((response) => {})
+			.catch((err) => {
+				alert('something went wrong, try again!');
+			});
 	};
 
 	render() {

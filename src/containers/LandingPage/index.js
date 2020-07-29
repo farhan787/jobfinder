@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Image, Button } from 'react-bootstrap';
+import { Jumbotron, Container, Row, Col, Image } from 'react-bootstrap';
 import { Navbar } from 'react-bootstrap';
 
 import './styles.css';
@@ -57,14 +57,13 @@ class LandingPage extends Component {
 					<Jumbotron>
 						<h2>Welcome to Job Finder</h2>
 						<p>We help people like you to find their Dream Job:)</p>
-						<Button>Learn More</Button>
+						<button className='ui button primary'>Learn More</button>
 					</Jumbotron>
 					<Row className='show-grid text-center'>
 						<Col xs={12} sm={6} lg={4} className='person-wrapper'>
 							<Image
 								src={require('../../assets/person-1.jpg')}
 								roundedCircle
-								responsive
 								className='profile-pic'
 							/>
 							<h3>Frank</h3>
@@ -78,7 +77,6 @@ class LandingPage extends Component {
 							<Image
 								src={require('../../assets/person-2.jpg')}
 								roundedCircle
-								responsive
 								className='profile-pic'
 							/>
 							<h3>Vanessa</h3>
@@ -92,7 +90,6 @@ class LandingPage extends Component {
 							<Image
 								src={require('../../assets/person-3.jpg')}
 								roundedCircle
-								responsive
 								className='profile-pic'
 							/>
 							<h3>Riff</h3>

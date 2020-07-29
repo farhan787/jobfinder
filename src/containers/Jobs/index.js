@@ -23,9 +23,6 @@ const styles = {
 		textDecoration: 'none',
 		color: 'black',
 	},
-	deleteJob: {
-		paddingLeft: '20px',
-	},
 };
 
 class Jobs extends Component {
@@ -47,7 +44,6 @@ class Jobs extends Component {
 						<Col md={2}>
 							<Button
 								variant='danger'
-								style={styles.deleteJob}
 								onClick={() => {
 									this.props.deleteAdminJob(admin, job);
 									alert('Deleting job post');

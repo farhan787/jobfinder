@@ -23,9 +23,6 @@ const styles = {
 		textDecoration: 'none',
 		color: 'black',
 	},
-	applyJob: {
-		paddingLeft: '20px',
-	},
 	homeLink: {
 		textDecoration: 'none',
 	},
