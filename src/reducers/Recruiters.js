@@ -10,9 +10,14 @@ export default (state = [], action) => {
 			return action.payload.data;
 
 		case DELETE_ADMIN_RECRUITER:
-			return state.filter(
-				(recruiter) => recruiter.uuid !== action.payload.uuid
-			);
+			let newState = [];
+			for (let i = 0; i < state.length; i++) {
+				const recruiter = state[i];
+				if (recruiter.uuid !== action.payload.uuid) {
+					newState.push(recruiter);
+				}
+			}
+			return newState;
 
 		case LOG_OUT:
 			return [];
