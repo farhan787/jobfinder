@@ -7,6 +7,8 @@ import {
 	fetchAdminCandidates,
 	logOut,
 } from '../../actions';
+import { users } from '../../config';
+import history from '../../history';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -36,6 +38,12 @@ const styles = {
 class Candidates extends Component {
 	componentDidMount() {
 		const admin = this.props.loggedInUser;
+		if (admin) {
+			if (admin.userType !== users.admin.type) {
+				history.push('/login');
+			}
+		}
+
 		this.props.fetchAdminCandidates(admin);
 	}
 

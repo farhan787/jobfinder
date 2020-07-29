@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { fetchAppliedJobs, logOut } from '../../actions';
+import { users } from '../../config';
+import history from '../../history';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -49,6 +51,11 @@ const renderJobs = (jobs) => {
 class CandidateJobs extends Component {
 	componentDidMount() {
 		const candidate = this.props.loggedInUser;
+		if (candidate) {
+			if (candidate.userType !== users.candidate.type) {
+				history.push('/login');
+			}
+		}
 		this.props.fetchAppliedJobs(candidate);
 	}
 

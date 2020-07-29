@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
+import { users } from '../../config';
+import history from '../../history';
 
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
@@ -32,6 +34,15 @@ const validate = (formValues) => {
 };
 
 class PostJob extends Component {
+	componentDidMount() {
+		const user = this.props.loggedInUser;
+		if (user) {
+			if (user.userType !== users.recruiter.type) {
+				history.push('/login');
+			}
+		}
+	}
+
 	renderError({ error, touched }) {
 		if (touched && error) {
 			return (

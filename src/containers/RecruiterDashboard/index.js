@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { users } from '../../config';
+import history from '../../history';
 import { deleteRecruiterJob, fetchPostedJobs, logOut } from '../../actions';
 
 const styles = {
@@ -28,6 +30,12 @@ const styles = {
 class RecruiterDashboard extends Component {
 	componentDidMount() {
 		const recruiter = this.props.loggedInUser;
+		if (recruiter) {
+			if (recruiter.userType !== users.recruiter.type) {
+				history.push('/login');
+			}
+		}
+
 		this.props.fetchPostedJobs(recruiter);
 	}
 

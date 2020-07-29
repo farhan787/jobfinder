@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { logOut } from '../../actions/';
+import { users } from '../../config';
+import history from '../../history';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -41,46 +43,59 @@ const styles = {
 	},
 };
 
-const AdminDashboard = (props) => {
-	return (
-		<Container>
-			<Row style={styles.headerRow}>
-				<Col>
-					<Link to='/' style={styles.homeLink}>
-						<h1>Job Finder</h1>
-					</Link>
-				</Col>
-				<Row>
+class AdminDashboard extends Component {
+	componentDidMount() {
+		const admin = this.props.loggedInUser;
+		if (admin) {
+			if (admin.userType !== users.admin.type) {
+				history.push('/login');
+			}
+		}
+	}
+
+	render() {
+		return (
+			<Container>
+				<Row style={styles.headerRow}>
 					<Col>
-						<Link onClick={() => props.logOut()} to='/'>
-							Logout
+						<Link to='/' style={styles.homeLink}>
+							<h1>Job Finder</h1>
 						</Link>
 					</Col>
+					<Row>
+						<Col>
+							<Link onClick={() => this.props.logOut()} to='/'>
+								Logout
+							</Link>
+						</Col>
+					</Row>
 				</Row>
-			</Row>
 
-			<Container style={(styles.entitiesListContainer, styles.verticalCenter)}>
-				<Link to='/jobs'>
-					<Row style={styles.entitiesList}>
-						<Col>Jobs</Col>
-					</Row>
-				</Link>
+				<Container
+					style={(styles.entitiesListContainer, styles.verticalCenter)}
+				>
+					<Link to='/jobs'>
+						<Row style={styles.entitiesList}>
+							<Col>Jobs</Col>
+						</Row>
+					</Link>
 
-				<Link to='/candidates'>
-					<Row style={styles.entitiesList}>
-						<Col>Candidates</Col>
-					</Row>
-				</Link>
+					<Link to='/candidates'>
+						<Row style={styles.entitiesList}>
+							<Col>Candidates</Col>
+						</Row>
+					</Link>
 
-				<Link to='/recruiters'>
-					<Row style={styles.entitiesList}>
-						<Col>Recruiters</Col>
-					</Row>
-				</Link>
+					<Link to='/recruiters'>
+						<Row style={styles.entitiesList}>
+							<Col>Recruiters</Col>
+						</Row>
+					</Link>
+				</Container>
 			</Container>
-		</Container>
-	);
-};
+		);
+	}
+}
 
 const mapStateToProps = (state) => {
 	return {

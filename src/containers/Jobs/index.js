@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { deleteAdminJob, fetchAdminJobs, logOut } from '../../actions';
+import { users } from '../../config';
+import history from '../../history';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -28,6 +30,12 @@ const styles = {
 class Jobs extends Component {
 	componentDidMount() {
 		const admin = this.props.loggedInUser;
+		if (admin) {
+			if (admin.userType !== users.admin.type) {
+				history.push('/login');
+			}
+		}
+
 		this.props.fetchAdminJobs(admin);
 	}
 
