@@ -86,7 +86,9 @@ class RecruiterDashboard extends Component {
 							<Link to='/post/job'>Post a Job</Link>
 						</Col>
 						<Col>
-							<Link to='/'>Logout</Link>
+							<Link onClick={() => this.props.logOut()} to='/'>
+								Logout
+							</Link>
 						</Col>
 					</Row>
 				</Row>

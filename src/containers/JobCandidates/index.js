@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { fetchJobCandidates } from '../../actions';
+import { fetchJobCandidates, logOut } from '../../actions';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -65,7 +65,9 @@ class JobCandidates extends Component {
 							<Link to='/post/job'>Post a Job</Link>
 						</Col>
 						<Col>
-							<Link to='/'>Logout</Link>
+							<Link onClick={() => this.props.logOut()} to='/'>
+								Logout
+							</Link>
 						</Col>
 					</Row>
 				</Row>
@@ -85,6 +87,6 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const actionCreators = { fetchJobCandidates };
+const actionCreators = { fetchJobCandidates, logOut };
 
 export default connect(mapStateToProps, actionCreators)(JobCandidates);

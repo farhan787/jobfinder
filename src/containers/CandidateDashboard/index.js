@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { applyToJob, fetchAvailableJobs } from '../../actions';
+import { applyToJob, fetchAvailableJobs, logOut } from '../../actions';
 import { users } from '../../config';
 import history from '../../history';
 
@@ -92,7 +92,9 @@ class CandidateDashboard extends Component {
 							<Link to='/candidate/jobs'>See Applied Jobs</Link>
 						</Col>
 						<Col>
-							<Link to='/'>Logout</Link>
+							<Link onClick={() => this.props.logOut()} to='/'>
+								Logout
+							</Link>
 						</Col>
 					</Row>
 				</Row>
@@ -115,6 +117,7 @@ const mapStateToProps = (state) => {
 const actionCreators = {
 	applyToJob,
 	fetchAvailableJobs,
+	logOut,
 };
 
 export default connect(mapStateToProps, actionCreators)(CandidateDashboard);

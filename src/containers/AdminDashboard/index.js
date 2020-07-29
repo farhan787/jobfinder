@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { logOut } from '../../actions/';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -51,7 +52,9 @@ const AdminDashboard = (props) => {
 				</Col>
 				<Row>
 					<Col>
-						<Link to='/'>Logout</Link>
+						<Link onClick={() => props.logOut()} to='/'>
+							Logout
+						</Link>
 					</Col>
 				</Row>
 			</Row>
@@ -85,4 +88,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(AdminDashboard);
+export default connect(mapStateToProps, { logOut })(AdminDashboard);

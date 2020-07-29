@@ -4,7 +4,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { postJob } from '../../actions';
+import { postJob, logOut } from '../../actions';
 
 const styles = {
 	homeLink: {
@@ -69,7 +69,9 @@ class PostJob extends Component {
 					</Col>
 					<Row>
 						<Col>
-							<Link to='/'>Logout</Link>
+							<Link onClick={() => this.props.logOut()} to='/'>
+								Logout
+							</Link>
 						</Col>
 					</Row>
 				</Row>
@@ -114,6 +116,6 @@ const formWrapped = reduxForm({
 	validate,
 })(PostJob);
 
-const actionCreators = { postJob };
+const actionCreators = { logOut, postJob };
 
 export default connect(mapStateToProps, actionCreators)(formWrapped);
