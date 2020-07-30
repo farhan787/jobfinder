@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { applyToJob, fetchAvailableJobs, logOut } from '../../actions';
 import { users } from '../../config';
 import history from '../../history';
+import Pagination from '../../components/Pagination';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -35,6 +36,14 @@ const styles = {
 };
 
 class CandidateDashboard extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			currentPage: 1,
+			jobsPerPage: 5,
+		};
+	}
+
 	componentDidMount() {
 		const user = this.props.loggedInUser;
 		if (user) {
@@ -74,7 +83,18 @@ class CandidateDashboard extends Component {
 		});
 	};
 
+	paginate = (pageNumber) => {
+		this.setState({ currentPage: pageNumber });
+	};
+
 	render() {
+		const indexOfLastJob = this.state.currentPage * this.state.jobsPerPage;
+		const indexOfFirstJob = indexOfLastJob - this.state.jobsPerPage;
+		const currentJobs = this.props.availableJobs.slice(
+			indexOfFirstJob,
+			indexOfLastJob
+		);
+
 		return (
 			<Container>
 				<Row style={styles.headerRow}>
@@ -96,8 +116,14 @@ class CandidateDashboard extends Component {
 				</Row>
 
 				<Container style={styles.jobsListContainer}>
-					{this.renderJobs(this.props.availableJobs)}
+					{this.renderJobs(currentJobs)}
 				</Container>
+
+				<Pagination
+					itemsPerPage={this.state.jobsPerPage}
+					totalItems={this.props.availableJobs.length}
+					paginate={this.paginate}
+				/>
 			</Container>
 		);
 	}

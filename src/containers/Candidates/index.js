@@ -10,6 +10,7 @@ import {
 import { users } from '../../config';
 import history from '../../history';
 import RenderCandidates from '../../components/Candidates/RenderCandidates';
+import Pagination from '../../components/Pagination';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -29,6 +30,14 @@ const styles = {
 let candidatesLoaded = false;
 
 class Candidates extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			currentPage: 1,
+			candidatesPerPage: 5,
+		};
+	}
+
 	componentDidMount() {
 		const admin = this.props.loggedInUser;
 		if (admin) {
@@ -41,7 +50,20 @@ class Candidates extends Component {
 		candidatesLoaded = true;
 	}
 
+	paginate = (pageNumber) => {
+		this.setState({ currentPage: pageNumber });
+	};
+
 	render() {
+		const indexOfLastCandidate =
+			this.state.currentPage * this.state.candidatesPerPage;
+		const indexOfFirstCandidate =
+			indexOfLastCandidate - this.state.candidatesPerPage;
+		const currentCandidates = this.props.candidates.slice(
+			indexOfFirstCandidate,
+			indexOfLastCandidate
+		);
+
 		if (!candidatesLoaded) {
 			return <Spinner animation='border' />;
 		}
@@ -65,11 +87,17 @@ class Candidates extends Component {
 
 				<Container style={styles.candidatesListContainer}>
 					<RenderCandidates
-						candidates={this.props.candidates}
+						candidates={currentCandidates}
 						admin={this.props.loggedInUser}
 						deleteAdminCandidate={this.props.deleteAdminCandidate}
 					/>
 				</Container>
+
+				<Pagination
+					itemsPerPage={this.state.candidatesPerPage}
+					totalItems={this.props.candidates.length}
+					paginate={this.paginate}
+				/>
 			</Container>
 		);
 	}
