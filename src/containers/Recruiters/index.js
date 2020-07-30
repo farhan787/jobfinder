@@ -9,6 +9,7 @@ import {
 } from '../../actions';
 import { users } from '../../config';
 import history from '../../history';
+import Pagination from '../../components/Pagination';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -36,6 +37,14 @@ const styles = {
 };
 
 class Recruiters extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			currentPage: 1,
+			recruitersPerPage: 5,
+		};
+	}
+
 	componentDidMount() {
 		const admin = this.props.loggedInUser;
 		if (admin) {
@@ -46,6 +55,10 @@ class Recruiters extends Component {
 
 		this.props.fetchAdminRecruiters(admin);
 	}
+
+	paginate = (pageNumber) => {
+		this.setState({ currentPage: pageNumber });
+	};
 
 	renderRecruiters = (recruiters) => {
 		const admin = this.props.loggedInUser;
@@ -75,6 +88,15 @@ class Recruiters extends Component {
 	};
 
 	render() {
+		const indexOfLastRecruiter =
+			this.state.currentPage * this.state.recruitersPerPage;
+		const indexOfFirstRecruiter =
+			indexOfLastRecruiter - this.state.recruitersPerPage;
+		const currentRecruiters = this.props.recruiters.slice(
+			indexOfFirstRecruiter,
+			indexOfLastRecruiter
+		);
+
 		return (
 			<Container>
 				<Row style={styles.headerRow}>
@@ -93,8 +115,13 @@ class Recruiters extends Component {
 				</Row>
 
 				<Container style={styles.recruitersListContainer}>
-					{this.renderRecruiters(this.props.recruiters)}
+					{this.renderRecruiters(currentRecruiters)}
 				</Container>
+				<Pagination
+					itemsPerPage={this.state.recruitersPerPage}
+					totalItems={this.props.recruiters.length}
+					paginate={this.paginate}
+				/>
 			</Container>
 		);
 	}
