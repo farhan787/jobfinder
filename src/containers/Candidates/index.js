@@ -55,6 +55,32 @@ class Candidates extends Component {
 	};
 
 	render() {
+		if (!this.props.candidates.length) {
+			return (
+				<Container>
+					<Row style={styles.headerRow}>
+						<Col>
+							<Link to='/' style={styles.homeLink}>
+								<h1>Job Finder</h1>
+							</Link>
+						</Col>
+						<Row>
+							<Col>
+								<Link onClick={() => this.props.logOut()} to='/'>
+									Logout
+								</Link>
+							</Col>
+						</Row>
+					</Row>
+					<h1 style={{ marginTop: '80px' }}>No Candidate Signed up yet:(</h1>
+				</Container>
+			);
+		}
+
+		if (!candidatesLoaded) {
+			return <Spinner animation='border' />;
+		}
+
 		const indexOfLastCandidate =
 			this.state.currentPage * this.state.candidatesPerPage;
 		const indexOfFirstCandidate =
@@ -63,10 +89,6 @@ class Candidates extends Component {
 			indexOfFirstCandidate,
 			indexOfLastCandidate
 		);
-
-		if (!candidatesLoaded) {
-			return <Spinner animation='border' />;
-		}
 
 		return (
 			<Container>

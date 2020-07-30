@@ -88,6 +88,31 @@ class CandidateDashboard extends Component {
 	};
 
 	render() {
+		if (!this.props.availableJobs.length) {
+			return (
+				<Container>
+					<Row style={styles.headerRow}>
+						<Col>
+							<Link to='/' style={styles.homeLink}>
+								<h1>Job Finder</h1>
+							</Link>
+						</Col>
+						<Row>
+							<Col>
+								<Link to='/candidate/jobs'>See Applied Jobs</Link>
+							</Col>
+							<Col>
+								<Link onClick={() => this.props.logOut()} to='/'>
+									Logout
+								</Link>
+							</Col>
+						</Row>
+					</Row>
+					<h1 style={{ marginTop: '80px' }}>No Job available:(</h1>
+				</Container>
+			);
+		}
+
 		const indexOfLastJob = this.state.currentPage * this.state.jobsPerPage;
 		const indexOfFirstJob = indexOfLastJob - this.state.jobsPerPage;
 		const currentJobs = this.props.availableJobs.slice(

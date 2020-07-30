@@ -90,6 +90,31 @@ class RecruiterDashboard extends Component {
 	};
 
 	render() {
+		if (!this.props.postedJobs.length) {
+			return (
+				<Container>
+					<Row style={styles.headerRow}>
+						<Col>
+							<Link to='/' style={styles.homeLink}>
+								<h1>Job Finder</h1>
+							</Link>
+						</Col>
+						<Row>
+							<Col>
+								<Link to='/post/job'>Post a Job</Link>
+							</Col>
+							<Col>
+								<Link onClick={() => this.props.logOut()} to='/'>
+									Logout
+								</Link>
+							</Col>
+						</Row>
+					</Row>
+					<h1 style={{ marginTop: '80px' }}>You did not post any job yet!</h1>
+				</Container>
+			);
+		}
+
 		const indexOfLastPostedJob =
 			this.state.currentPage * this.state.postedJobsPerPage;
 		const indexOfFirstPostedJob =

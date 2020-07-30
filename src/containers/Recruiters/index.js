@@ -88,6 +88,28 @@ class Recruiters extends Component {
 	};
 
 	render() {
+		if (!this.props.recruiters.length) {
+			return (
+				<Container>
+					<Row style={styles.headerRow}>
+						<Col>
+							<Link to='/' style={styles.homeLink}>
+								<h1>Job Finder</h1>
+							</Link>
+						</Col>
+						<Row>
+							<Col>
+								<Link onClick={() => this.props.logOut()} to='/'>
+									Logout
+								</Link>
+							</Col>
+						</Row>
+					</Row>
+					<h1 style={{ marginTop: '80px' }}>No Recruiter Signed up yet:(</h1>
+				</Container>
+			);
+		}
+
 		const indexOfLastRecruiter =
 			this.state.currentPage * this.state.recruitersPerPage;
 		const indexOfFirstRecruiter =

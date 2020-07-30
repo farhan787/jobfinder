@@ -80,6 +80,28 @@ class Jobs extends Component {
 	};
 
 	render() {
+		if (!this.props.jobs.length) {
+			return (
+				<Container>
+					<Row style={styles.headerRow}>
+						<Col>
+							<Link to='/' style={styles.homeLink}>
+								<h1>Job Finder</h1>
+							</Link>
+						</Col>
+						<Row>
+							<Col>
+								<Link onClick={() => this.props.logOut()} to='/'>
+									Logout
+								</Link>
+							</Col>
+						</Row>
+					</Row>
+					<h1 style={{ marginTop: '80px' }}>No Job posted yet:(</h1>
+				</Container>
+			);
+		}
+
 		const indexOfLastJob = this.state.currentPage * this.state.jobsPerPage;
 		const indexOfFirstJob = indexOfLastJob - this.state.jobsPerPage;
 		const currentJobs = this.props.jobs.slice(indexOfFirstJob, indexOfLastJob);
