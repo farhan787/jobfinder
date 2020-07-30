@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { signUp } from '../../actions';
 
 const ALPHABET_SPACE_REGEX = /^[a-zA-Z ]*$/;
+const PHONE_REGEX = /^[0-9]+$/;
 
 const styles = {
 	homeLink: {
@@ -57,6 +58,15 @@ const validate = (formValues) => {
 	if (!formValues.phone) {
 		errors.phone = 'You must enter a phone';
 	}
+	if (formValues.phone) {
+		if (formValues.phone.length != 10) {
+			errors.phone = 'Phone number length must be 10';
+		}
+		if (!formValues.phone.match(PHONE_REGEX)) {
+			errors.phone = 'Phone number must only contain numerical digits';
+		}
+	}
+
 	if (!formValues.userType) {
 		errors.userType = 'You must enter a user type';
 	}
