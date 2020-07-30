@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Container, Col, Row, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {
 	deleteAdminCandidate,
@@ -9,21 +9,12 @@ import {
 } from '../../actions';
 import { users } from '../../config';
 import history from '../../history';
+import RenderCandidates from '../../components/Candidates/RenderCandidates';
 
 const styles = {
 	row: { marginTop: '40px' },
 	candidatesListContainer: {
 		marginTop: '50px',
-	},
-	candidate: {
-		borderRadius: '6px',
-		margin: '10px',
-		padding: '15px',
-		fontFamily: 'sans-serif',
-		backgroundColor: '#F0F0ED',
-		fontSize: '1.2rem',
-		textAlign: 'center',
-		alignItem: 'center',
 	},
 	link: {
 		textDecoration: 'none',
@@ -35,6 +26,8 @@ const styles = {
 	},
 };
 
+let candidatesLoaded = false;
+
 class Candidates extends Component {
 	componentDidMount() {
 		const admin = this.props.loggedInUser;
@@ -45,36 +38,14 @@ class Candidates extends Component {
 		}
 
 		this.props.fetchAdminCandidates(admin);
+		candidatesLoaded = true;
 	}
 
-	renderCandidates = (candidates) => {
-		const admin = this.props.loggedInUser;
-
-		return candidates.map((candidate) => {
-			return (
-				<div key={candidate.email}>
-					<Row style={styles.candidate}>
-						<Col md={2}>{candidate.name}</Col>
-						<Col md={4}>{candidate.skills}</Col>
-						<Col md={4}>{candidate.email}</Col>
-						<Col md={2}>
-							<Button
-								variant='danger'
-								onClick={() => {
-									this.props.deleteAdminCandidate(admin, candidate);
-									alert('Deleting candidate');
-								}}
-							>
-								Delete
-							</Button>
-						</Col>
-					</Row>
-				</div>
-			);
-		});
-	};
-
 	render() {
+		if (!candidatesLoaded) {
+			return <Spinner animation='border' />;
+		}
+
 		return (
 			<Container>
 				<Row style={styles.headerRow}>
@@ -93,7 +64,11 @@ class Candidates extends Component {
 				</Row>
 
 				<Container style={styles.candidatesListContainer}>
-					{this.renderCandidates(this.props.candidates)}
+					<RenderCandidates
+						candidates={this.props.candidates}
+						admin={this.props.loggedInUser}
+						deleteAdminCandidate={this.props.deleteAdminCandidate}
+					/>
 				</Container>
 			</Container>
 		);
