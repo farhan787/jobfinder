@@ -4,6 +4,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import history from '../../history';
 
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { logIn } from '../../actions';
@@ -94,6 +95,10 @@ class Login extends Component {
 	render() {
 		return (
 			<Container>
+				<Helmet>
+					<title>Login</title>
+				</Helmet>
+
 				<Row style={styles.headerRow}>
 					<Col>
 						<Link to='/' style={styles.homeLink}>

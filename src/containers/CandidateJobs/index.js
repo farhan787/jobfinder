@@ -6,6 +6,7 @@ import { fetchAppliedJobs, logOut } from '../../actions';
 import { users } from '../../config';
 import history from '../../history';
 import Pagination from '../../components/Pagination';
+import { Helmet } from 'react-helmet';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -83,6 +84,10 @@ class CandidateJobs extends Component {
 		if (!this.props.appliedJobs.length) {
 			return (
 				<Container>
+					<Helmet>
+						<title>Applied Jobs</title>
+					</Helmet>
+
 					<Row style={styles.headerRow}>
 						<Col>
 							<Link to='/' style={styles.homeLink}>
@@ -113,6 +118,10 @@ class CandidateJobs extends Component {
 
 		return (
 			<Container>
+				<Helmet>
+					<title>Applied Jobs</title>
+				</Helmet>
+
 				<Row style={styles.headerRow}>
 					<Col>
 						<Link to='/' style={styles.homeLink}>
@@ -126,6 +135,12 @@ class CandidateJobs extends Component {
 							</Link>
 						</Col>
 					</Row>
+				</Row>
+
+				<Row>
+					<Col>
+						<h2>Applied Jobs</h2>
+					</Col>
 				</Row>
 
 				<Container style={styles.jobsListContainer}>

@@ -3,6 +3,7 @@ import { passwordMinLength, users } from '../../config';
 import { Container, Col, Row } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { signUp } from '../../actions';
@@ -119,6 +120,10 @@ class Signup extends Component {
 	render() {
 		return (
 			<Container>
+				<Helmet>
+					<title>Signup</title>
+				</Helmet>
+
 				<Row style={styles.headerRow}>
 					<Col>
 						<Link to='/' style={styles.homeLink}>

@@ -4,6 +4,7 @@ import { users } from '../../config';
 import history from '../../history';
 
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { postJob, logOut } from '../../actions';
@@ -110,6 +111,10 @@ class PostJob extends Component {
 	render() {
 		return (
 			<Container>
+				<Helmet>
+					<title>Post a Job</title>
+				</Helmet>
+
 				<Row style={styles.headerRow}>
 					<Col>
 						<Link to='/' style={styles.homeLink}>

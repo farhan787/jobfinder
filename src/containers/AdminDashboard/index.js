@@ -4,6 +4,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { logOut } from '../../actions/';
 import { users } from '../../config';
+import { Helmet } from 'react-helmet';
+
 import history from '../../history';
 
 const styles = {
@@ -56,6 +58,10 @@ class AdminDashboard extends Component {
 	render() {
 		return (
 			<Container>
+				<Helmet>
+					<title>Admin Dashboard</title>
+				</Helmet>
+
 				<Row style={styles.headerRow}>
 					<Col>
 						<Link to='/' style={styles.homeLink}>

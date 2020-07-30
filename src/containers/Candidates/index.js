@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Col, Row, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+
 import {
 	deleteAdminCandidate,
 	fetchAdminCandidates,
@@ -58,6 +60,10 @@ class Candidates extends Component {
 		if (!this.props.candidates.length) {
 			return (
 				<Container>
+					<Helmet>
+						<title>Candidates</title>
+					</Helmet>
+
 					<Row style={styles.headerRow}>
 						<Col>
 							<Link to='/' style={styles.homeLink}>
@@ -92,6 +98,10 @@ class Candidates extends Component {
 
 		return (
 			<Container>
+				<Helmet>
+					<title>Candidates</title>
+				</Helmet>
+
 				<Row style={styles.headerRow}>
 					<Col>
 						<Link to='/' style={styles.homeLink}>
@@ -108,6 +118,12 @@ class Candidates extends Component {
 				</Row>
 
 				<Container style={styles.candidatesListContainer}>
+					<Row>
+						<Col>
+							<h2>Candidates</h2>
+						</Col>
+					</Row>
+
 					<RenderCandidates
 						candidates={currentCandidates}
 						admin={this.props.loggedInUser}

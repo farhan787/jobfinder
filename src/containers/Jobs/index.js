@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { deleteAdminJob, fetchAdminJobs, logOut } from '../../actions';
+import { Helmet } from 'react-helmet';
+
 import { users } from '../../config';
 import history from '../../history';
 import Pagination from '../../components/Pagination';
@@ -89,6 +91,10 @@ class Jobs extends Component {
 
 		return (
 			<Container>
+				<Helmet>
+					<title>Jobs</title>
+				</Helmet>
+
 				<Row style={styles.headerRow}>
 					<Col>
 						<Link to='/' style={styles.homeLink}>
@@ -105,6 +111,12 @@ class Jobs extends Component {
 				</Row>
 
 				<Container style={styles.jobsListContainer}>
+					<Row>
+						<Col>
+							<h2>Jobs</h2>
+						</Col>
+					</Row>
+
 					<RenderJobs
 						jobs={currentJobs}
 						admin={this.props.loggedInUser}

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+
 import { users } from '../../config';
 import history from '../../history';
 import { deleteRecruiterJob, fetchPostedJobs, logOut } from '../../actions';
@@ -54,6 +56,10 @@ class RecruiterDashboard extends Component {
 		if (!this.props.postedJobs.length) {
 			return (
 				<Container>
+					<Helmet>
+						<title>Recruiter Dashboard</title>
+					</Helmet>
+
 					<Row style={styles.headerRow}>
 						<Col>
 							<Link to='/' style={styles.homeLink}>
@@ -87,6 +93,10 @@ class RecruiterDashboard extends Component {
 
 		return (
 			<Container>
+				<Helmet>
+					<title>Recruiter Dashboard</title>
+				</Helmet>
+
 				<Row style={styles.headerRow}>
 					<Col>
 						<Link to='/' style={styles.homeLink}>
@@ -106,6 +116,12 @@ class RecruiterDashboard extends Component {
 				</Row>
 
 				<Container style={styles.jobsListContainer}>
+					<Row>
+						<Col>
+							<h2>Posted Jobs</h2>
+						</Col>
+					</Row>
+
 					<RenderPostedJobs
 						jobs={currentPostedJobs}
 						recruiter={this.props.loggedInUser}

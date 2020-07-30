@@ -5,6 +5,7 @@ import history from '../../history';
 
 import Recaptcha from 'react-google-invisible-recaptcha';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { logIn } from '../../actions';
@@ -92,6 +93,10 @@ class AdminLogin extends Component {
 	render() {
 		return (
 			<Container>
+				<Helmet>
+					<title>Admin Login</title>
+				</Helmet>
+
 				<Row style={styles.headerRow}>
 					<Col>
 						<Link to='/' style={styles.homeLink}>
