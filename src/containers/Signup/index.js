@@ -49,7 +49,8 @@ const validate = (formValues) => {
 		formValues.userType &&
 		![users.candidate.type, users.recruiter.type].includes(formValues.userType)
 	) {
-		errors.userType = 'User type can be either candidate or recruiter';
+		errors.userType =
+			'User type can be either candidate or recruiter (case sensitive)';
 	}
 	return errors;
 };
@@ -65,12 +66,12 @@ class Signup extends Component {
 		}
 	}
 
-	renderInput = ({ input, label, meta, type = 'text' }) => {
+	renderInput = ({ input, label, meta, type = 'text', placeholder = '' }) => {
 		const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
 		return (
 			<div className={className}>
 				<label>{label}</label>
-				<input {...input} type={type} />
+				<input {...input} type={type} placeholder={placeholder} />
 				{this.renderError(meta)}
 			</div>
 		);
@@ -126,15 +127,16 @@ class Signup extends Component {
 							<Field name='phone' component={this.renderInput} label='Phone' />
 
 							<Field
-								name='skills'
-								component={this.renderInput}
-								label='Skills'
-							/>
-
-							<Field
 								name='userType'
 								component={this.renderInput}
 								label='candidate or recruiter??'
+							/>
+
+							<Field
+								name='skills'
+								component={this.renderInput}
+								label='Skills'
+								placeholder='Only if you are a candidate'
 							/>
 
 							<button className='ui button primary'>Signup</button>

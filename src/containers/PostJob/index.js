@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Col, Row } from 'react-bootstrap';
+import { Button, Container, Col, Row } from 'react-bootstrap';
 import { users } from '../../config';
 import history from '../../history';
 
@@ -34,6 +34,11 @@ const validate = (formValues) => {
 };
 
 class PostJob extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { postButtonDisabled: false };
+	}
+
 	componentDidMount() {
 		const user = this.props.loggedInUser;
 		if (user) {
@@ -66,11 +71,13 @@ class PostJob extends Component {
 
 	onSubmit = (formValues) => {
 		const recruiter = this.props.loggedInUser;
+		this.setState({ postButtonDisabled: true });
+
 		this.props
 			.postJob(formValues, recruiter)
 			.then((response) => {})
 			.catch((err) => {
-				alert('something went wrong, try again!');
+				alert('Something went wrong, try some time later!');
 			});
 	};
 
@@ -112,7 +119,12 @@ class PostJob extends Component {
 								label='Location'
 							/>
 
-							<button className='ui button primary'>Post Job</button>
+							<button
+								className='ui button primary'
+								disabled={this.state.postButtonDisabled}
+							>
+								Post Job
+							</button>
 						</form>
 					</Col>{' '}
 				</Row>
