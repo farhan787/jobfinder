@@ -1,6 +1,8 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
+import ReactGA from 'react-ga';
 import history from './history';
+import { googleAnalyticsId } from './config';
 
 import LandingPage from './containers/LandingPage/';
 import Login from './containers/Login/';
@@ -17,7 +19,14 @@ import Candidates from './containers/Candidates/';
 import Recruiters from './containers/Recruiters/';
 import NotFound from './containers/ErrorPages/NotFound';
 
+function initializeAnalytics() {
+	ReactGA.initialize(googleAnalyticsId);
+	ReactGA.pageview('/');
+}
+
 const App = () => {
+	initializeAnalytics();
+
 	return (
 		<div className='ui container'>
 			<Router history={history}>

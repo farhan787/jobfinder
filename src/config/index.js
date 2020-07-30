@@ -1,5 +1,6 @@
 export const baseUrl = process.env.REACT_APP_API_BASE_URL;
 export const captchaSiteKey = process.env.REACT_APP_CAPTCHA_SITE_KEY;
+export const googleAnalyticsId = process.env.REACT_APP_GOOGLE_ANALYTICS_ID
 
 export const users = {
 	admin: {
