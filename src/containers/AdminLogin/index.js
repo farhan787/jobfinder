@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { passwordMinLength, users } from '../../config';
+import { captchaSiteKey, passwordMinLength, users } from '../../config';
 import { Container, Col, Row } from 'react-bootstrap';
 import history from '../../history';
 
+import Recaptcha from 'react-google-invisible-recaptcha';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
@@ -31,19 +32,10 @@ const validate = (formValues) => {
 	if (formValues.password && formValues.password.length < passwordMinLength) {
 		errors.password = 'Password must be at least 6 characters long';
 	}
-	if (!formValues.userType) {
-		errors.userType = 'You must enter a user type';
-	}
-	if (
-		formValues.userType &&
-		![users.candidate.type, users.recruiter.type].includes(formValues.userType)
-	) {
-		errors.userType = 'User type can be either candidate or recruiter';
-	}
 	return errors;
 };
 
-class Login extends Component {
+class AdminLogin extends Component {
 	componentDidMount() {
 		const user = this.props.loggedInUser;
 		if (user) {
@@ -51,6 +43,8 @@ class Login extends Component {
 				history.push('/candidate/dashboard');
 			} else if (user.userType === users.recruiter.type) {
 				history.push('/recruiter/dashboard');
+			} else if (user.userType === users.admin.type) {
+				history.push('/admin/dashboard');
 			}
 		}
 	}
@@ -65,8 +59,17 @@ class Login extends Component {
 		}
 	}
 
+	Captcha = (props) => {
+		return (
+			<div>
+				<Recaptcha sitekey={captchaSiteKey} onChange={props.input.onChange} />
+			</div>
+		);
+	};
+
 	renderInput = ({ input, label, meta, type = 'text' }) => {
 		const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
+
 		return (
 			<div className={className}>
 				<label>{label}</label>
@@ -77,14 +80,9 @@ class Login extends Component {
 	};
 
 	onSubmit = (formValues) => {
-		if (formValues.userType === users.candidate.type) {
-			formValues.role = users.candidate.role;
-		} else if (formValues.userType === users.recruiter.type) {
-			formValues.role = users.recruiter.role;
-		}
-
+		formValues.role = users.admin.role;
 		this.props
-			.logIn(formValues, formValues.userType)
+			.logIn(formValues, users.admin.type)
 			.then((response) => {})
 			.catch((err) => {
 				alert('invalid email or password');
@@ -122,20 +120,12 @@ class Login extends Component {
 								type='password'
 							/>
 
-							<Field
-								name='userType'
-								component={this.renderInput}
-								label='candidate or recruiter??'
-							/>
+							<Field name='captcharesponse' component={this.Captcha} />
 
 							<button className='ui button primary' style={styles.loginButton}>
 								Login
 							</button>
 						</form>
-
-						<Link to='/admin/login'>
-							<small style={styles.adminLoginLink}>Admin Login?</small>
-						</Link>
 					</Col>{' '}
 				</Row>
 			</Container>
@@ -150,9 +140,9 @@ const mapStateToProps = (state) => {
 };
 
 const formWrapped = reduxForm({
-	form: 'login',
+	form: 'adminLogin',
 	validate,
-})(Login);
+})(AdminLogin);
 
 const actionCreators = { logIn };
 

@@ -10,6 +10,7 @@ import PostJob from './containers/PostJob/';
 import JobCandidates from './containers/JobCandidates/';
 import CandidateDashboard from './containers/CandidateDashboard/';
 import CandidateJobs from './containers/CandidateJobs/';
+import AdminLogin from './containers/AdminLogin/';
 import AdminDashboard from './containers/AdminDashboard/';
 import Jobs from './containers/Jobs/';
 import Candidates from './containers/Candidates/';
@@ -31,6 +32,7 @@ const App = () => {
 					<Route path='/candidate/dashboard' component={CandidateDashboard} />
 					<Route path='/candidate/jobs' component={CandidateJobs} />
 
+					<Route path='/admin/login' component={AdminLogin} />
 					<Route path='/admin/dashboard' component={AdminDashboard} />
 					<Route path='/jobs' component={Jobs} />
 					<Route path='/candidates' component={Candidates} />
