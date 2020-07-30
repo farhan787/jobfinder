@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { users } from '../../config';
 import history from '../../history';
@@ -18,6 +18,8 @@ const styles = {
 		color: 'black',
 	},
 };
+
+let postedJobsLoaded = false;
 
 class RecruiterDashboard extends Component {
 	constructor(props) {
@@ -37,6 +39,7 @@ class RecruiterDashboard extends Component {
 		}
 
 		this.props.fetchPostedJobs(recruiter);
+		postedJobsLoaded = true;
 	}
 
 	paginate = (pageNumber) => {
@@ -44,6 +47,10 @@ class RecruiterDashboard extends Component {
 	};
 
 	render() {
+		if (!postedJobsLoaded) {
+			return <Spinner animation='border' />;
+		}
+
 		if (!this.props.postedJobs.length) {
 			return (
 				<Container>

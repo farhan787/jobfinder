@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import {
 	deleteAdminRecruiter,
@@ -37,6 +37,8 @@ const styles = {
 	},
 };
 
+let recruitersLoaded = false;
+
 class Recruiters extends Component {
 	constructor(props) {
 		super(props);
@@ -55,6 +57,7 @@ class Recruiters extends Component {
 		}
 
 		this.props.fetchAdminRecruiters(admin);
+		recruitersLoaded = true;
 	}
 
 	paginate = (pageNumber) => {
@@ -89,6 +92,10 @@ class Recruiters extends Component {
 	};
 
 	render() {
+		if (!recruitersLoaded) {
+			return <Spinner animation='border' />;
+		}
+
 		if (!this.props.recruiters.length) {
 			return (
 				<Container>

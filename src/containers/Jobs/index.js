@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { deleteAdminJob, fetchAdminJobs, logOut } from '../../actions';
 import { users } from '../../config';
@@ -29,6 +29,8 @@ const styles = {
 	},
 };
 
+let jobsLoaded = false;
+
 class Jobs extends Component {
 	constructor(props) {
 		super(props);
@@ -47,6 +49,7 @@ class Jobs extends Component {
 		}
 
 		this.props.fetchAdminJobs(admin);
+		jobsLoaded = true;
 	}
 
 	paginate = (pageNumber) => {
@@ -54,6 +57,10 @@ class Jobs extends Component {
 	};
 
 	render() {
+		if (!jobsLoaded) {
+			return <Spinner animation='border' />;
+		}
+
 		if (!this.props.jobs.length) {
 			return (
 				<Container>

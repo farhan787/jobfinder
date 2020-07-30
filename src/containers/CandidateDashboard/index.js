@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { applyToJob, fetchAvailableJobs, logOut } from '../../actions';
 import { users } from '../../config';
@@ -35,6 +35,8 @@ const styles = {
 	},
 };
 
+let availableJobsLoaded = false;
+
 class CandidateDashboard extends Component {
 	constructor(props) {
 		super(props);
@@ -54,6 +56,7 @@ class CandidateDashboard extends Component {
 
 		const candidate = this.props.loggedInUser;
 		this.props.fetchAvailableJobs(candidate);
+		availableJobsLoaded = true;
 	}
 
 	renderJobs = (jobs) => {
@@ -88,6 +91,10 @@ class CandidateDashboard extends Component {
 	};
 
 	render() {
+		if (!availableJobsLoaded) {
+			return <Spinner animation='border' />;
+		}
+
 		if (!this.props.availableJobs.length) {
 			return (
 				<Container>

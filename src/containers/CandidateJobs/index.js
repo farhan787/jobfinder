@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { fetchAppliedJobs, logOut } from '../../actions';
 import { users } from '../../config';
@@ -49,6 +49,8 @@ const renderJobs = (jobs) => {
 	});
 };
 
+let appliedJobsLoaded = false;
+
 class CandidateJobs extends Component {
 	constructor(props) {
 		super(props);
@@ -66,6 +68,7 @@ class CandidateJobs extends Component {
 			}
 		}
 		this.props.fetchAppliedJobs(candidate);
+		appliedJobsLoaded = true;
 	}
 
 	paginate = (pageNumber) => {
@@ -73,6 +76,10 @@ class CandidateJobs extends Component {
 	};
 
 	render() {
+		if (!appliedJobsLoaded) {
+			return <Spinner animation='border' />;
+		}
+
 		if (!this.props.appliedJobs.length) {
 			return (
 				<Container>
