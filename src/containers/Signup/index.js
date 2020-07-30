@@ -27,6 +27,21 @@ const validate = (formValues) => {
 	if (formValues.name && !formValues.name.match(ALPHABET_SPACE_REGEX)) {
 		errors.name = 'Name can only contain alphabets';
 	}
+	if (formValues.name && formValues.name.length < 3) {
+		errors.name = 'Name should be minimun of length 3';
+	}
+	if (formValues.name && formValues.name.length > 50) {
+		errors.name = 'Name should be maximum of length 50';
+	}
+
+	if (formValues.skills) {
+		if (formValues.skills.length < 3) {
+			errors.skills = 'Skills should be minimunm of length 3';
+		}
+		if (formValues.skills.length > 50) {
+			errors.skills = 'Skills should be maximum of length 50';
+		}
+	}
 
 	if (!formValues.email) {
 		errors.email = 'You must enter an email';
