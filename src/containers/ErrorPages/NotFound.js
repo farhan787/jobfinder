@@ -8,7 +8,7 @@ const NotFound = () => {
 				<title>Not Found</title>
 			</Helmet>
 
-			<h1>Not Found!! Invalid Route.</h1>
+			<h1>404 Route Not Found!! Invalid Route.</h1>
 		</div>
 	);
 };

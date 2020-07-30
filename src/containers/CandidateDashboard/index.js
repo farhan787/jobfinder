@@ -7,6 +7,7 @@ import { users } from '../../config';
 import history from '../../history';
 import Pagination from '../../components/Pagination';
 import { Helmet } from 'react-helmet';
+import Swal from 'sweetalert2';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -60,6 +61,19 @@ class CandidateDashboard extends Component {
 		availableJobsLoaded = true;
 	}
 
+	handleJobApply = (candidate, job) => {
+		this.props.applyToJob(candidate, job);
+		Swal.fire({
+			title: 'Applied to job successfully',
+			showClass: {
+				popup: 'animate__animated animate__fadeInDown',
+			},
+			hideClass: {
+				popup: 'animate__animated animate__fadeOutUp',
+			},
+		});
+	};
+
 	renderJobs = (jobs) => {
 		const candidate = this.props.loggedInUser;
 
@@ -74,8 +88,7 @@ class CandidateDashboard extends Component {
 							<Button
 								variant='success'
 								onClick={() => {
-									this.props.applyToJob(candidate, job);
-									alert('Applied Successfully');
+									this.handleJobApply(candidate, job);
 								}}
 							>
 								Apply
