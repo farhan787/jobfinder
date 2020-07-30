@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { deleteAdminJob, fetchAdminJobs, logOut } from '../../actions';
 import { users } from '../../config';
 import history from '../../history';
 import Pagination from '../../components/Pagination';
+import RenderJobs from '../../components/Admin/RenderJobs';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -47,33 +48,6 @@ class Jobs extends Component {
 
 		this.props.fetchAdminJobs(admin);
 	}
-
-	renderJobs = (jobs) => {
-		const admin = this.props.loggedInUser;
-
-		return jobs.map((job, index) => {
-			return (
-				<div key={index}>
-					<Row style={styles.job}>
-						<Col md={2}>{job.title}</Col>
-						<Col md={6}>{job.description}</Col>
-						<Col md={2}>{job.location}</Col>
-						<Col md={2}>
-							<Button
-								variant='danger'
-								onClick={() => {
-									this.props.deleteAdminJob(admin, job);
-									alert('Deleting job post');
-								}}
-							>
-								Delete
-							</Button>
-						</Col>
-					</Row>
-				</div>
-			);
-		});
-	};
 
 	paginate = (pageNumber) => {
 		this.setState({ currentPage: pageNumber });
@@ -124,7 +98,11 @@ class Jobs extends Component {
 				</Row>
 
 				<Container style={styles.jobsListContainer}>
-					{this.renderJobs(currentJobs)}
+					<RenderJobs
+						jobs={currentJobs}
+						admin={this.props.loggedInUser}
+						deleteAdminJob={this.props.deleteAdminJob}
+					/>
 				</Container>
 
 				<Pagination

@@ -10,6 +10,7 @@ import {
 import { users } from '../../config';
 import history from '../../history';
 import Pagination from '../../components/Pagination';
+import RenderRecruiters from '../../components/Admin/RenderRecruiters';
 
 const styles = {
 	row: { marginTop: '40px' },
@@ -137,7 +138,11 @@ class Recruiters extends Component {
 				</Row>
 
 				<Container style={styles.recruitersListContainer}>
-					{this.renderRecruiters(currentRecruiters)}
+					<RenderRecruiters
+						recruiters={currentRecruiters}
+						admin={this.props.loggedInUser}
+						deleteAdminRecruiter={this.props.deleteAdminRecruiter}
+					/>
 				</Container>
 				<Pagination
 					itemsPerPage={this.state.recruitersPerPage}

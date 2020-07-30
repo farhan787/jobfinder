@@ -6,21 +6,12 @@ import { users } from '../../config';
 import history from '../../history';
 import { deleteRecruiterJob, fetchPostedJobs, logOut } from '../../actions';
 import Pagination from '../../components/Pagination';
+import RenderPostedJobs from '../../components/Recruiters/RenderPostedJobs';
 
 const styles = {
 	row: { marginTop: '40px' },
 	jobsListContainer: {
 		marginTop: '50px',
-	},
-	job: {
-		borderRadius: '6px',
-		margin: '10px',
-		padding: '15px',
-		fontFamily: 'sans-serif',
-		backgroundColor: '#F0F0ED',
-		fontSize: '1.2rem',
-		textAlign: 'center',
-		alignItem: 'center',
 	},
 	link: {
 		textDecoration: 'none',
@@ -50,43 +41,6 @@ class RecruiterDashboard extends Component {
 
 	paginate = (pageNumber) => {
 		this.setState({ currentPage: pageNumber });
-	};
-
-	renderJobs = (jobs) => {
-		const recruiter = this.props.loggedInUser;
-
-		return jobs.map((job, index) => {
-			return (
-				<div key={index}>
-					<Link
-						to={{
-							pathname: '/job/candidates',
-							state: {
-								job,
-							},
-						}}
-						style={styles.link}
-					>
-						<Row style={styles.job}>
-							<Col md={2}>{job.title}</Col>
-							<Col md={6}>{job.description}</Col>
-							<Col md={2}>{job.location}</Col>
-							<Col md={2}>
-								<Button
-									variant='danger'
-									onClick={() => {
-										this.props.deleteRecruiterJob(recruiter, job);
-										alert('Deleting job post');
-									}}
-								>
-									Delete
-								</Button>
-							</Col>
-						</Row>
-					</Link>
-				</div>
-			);
-		});
 	};
 
 	render() {
@@ -145,7 +99,11 @@ class RecruiterDashboard extends Component {
 				</Row>
 
 				<Container style={styles.jobsListContainer}>
-					{this.renderJobs(currentPostedJobs)}
+					<RenderPostedJobs
+						jobs={currentPostedJobs}
+						recruiter={this.props.loggedInUser}
+						deleteRecruiterJob={this.props.deleteRecruiterJob}
+					/>
 				</Container>
 
 				<Pagination
