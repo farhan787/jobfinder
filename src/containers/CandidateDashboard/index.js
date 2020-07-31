@@ -84,7 +84,7 @@ class CandidateDashboard extends Component {
 						.applyToJob(candidate, job)
 						.then((response) => {
 							Swal.fire({
-								title: 'Job Application Sumbitted!',
+								title: 'Job Application Submitted!',
 								showClass: {
 									popup: 'animate__animated animate__fadeInDown',
 								},
