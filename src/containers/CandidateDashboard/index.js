@@ -73,16 +73,30 @@ class CandidateDashboard extends Component {
 	}
 
 	handleJobApply = (candidate, job) => {
-		this.props.applyToJob(candidate, job);
-		Swal.fire({
-			title: 'Applied to job successfully',
-			showClass: {
-				popup: 'animate__animated animate__fadeInDown',
+		Swal.queue([
+			{
+				title: 'Job Appilication Confirmation',
+				confirmButtonText: 'Apply to this Job?',
+				text: 'You will get an email on job application for confirmation',
+				showLoaderOnConfirm: true,
+				preConfirm: () => {
+					return this.props
+						.applyToJob(candidate, job)
+						.then((response) => {
+							Swal.fire({
+								title: 'Job Application Sumbitted!',
+								showClass: {
+									popup: 'animate__animated animate__fadeInDown',
+								},
+								hideClass: {
+									popup: 'animate__animated animate__fadeOutUp',
+								},
+							});
+						})
+						.catch((err) => {});
+				},
 			},
-			hideClass: {
-				popup: 'animate__animated animate__fadeOutUp',
-			},
-		});
+		]);
 	};
 
 	renderJobs = (jobs) => {
