@@ -133,6 +133,7 @@ class Jobs extends Component {
 				</Container>
 
 				<Pagination
+					currentPage={this.state.currentPage}
 					itemsPerPage={this.state.jobsPerPage}
 					totalItems={this.props.jobs.length}
 					paginate={this.paginate}

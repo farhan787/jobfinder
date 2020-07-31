@@ -176,6 +176,7 @@ class Recruiters extends Component {
 					/>
 				</Container>
 				<Pagination
+					currentPage={this.state.currentPage}
 					itemsPerPage={this.state.recruitersPerPage}
 					totalItems={this.props.recruiters.length}
 					paginate={this.paginate}

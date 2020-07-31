@@ -198,6 +198,7 @@ class CandidateDashboard extends Component {
 				</Container>
 
 				<Pagination
+					currentPage={this.state.currentPage}
 					itemsPerPage={this.state.jobsPerPage}
 					totalItems={this.props.availableJobs.length}
 					paginate={this.paginate}

@@ -148,6 +148,7 @@ class RecruiterDashboard extends Component {
 				</Container>
 
 				<Pagination
+					currentPage={this.state.currentPage}
 					itemsPerPage={this.state.postedJobsPerPage}
 					totalItems={this.props.postedJobs.length}
 					paginate={this.paginate}

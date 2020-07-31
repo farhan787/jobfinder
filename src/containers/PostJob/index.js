@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 import { users } from '../../config';
 import history from '../../history';
 

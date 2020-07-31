@@ -176,6 +176,7 @@ class JobCandidates extends Component {
 				</Container>
 
 				<Pagination
+					currentPage={this.state.currentPage}
 					itemsPerPage={this.state.candidatesPerPage}
 					totalItems={this.props.jobCandidates.length}
 					paginate={this.paginate}
