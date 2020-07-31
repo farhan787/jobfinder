@@ -113,7 +113,7 @@ class Jobs extends Component {
 				<Container style={styles.jobsListContainer}>
 					<Row>
 						<Col>
-							<h2>Jobs</h2>
+							<h1>Jobs</h1>
 						</Col>
 					</Row>
 

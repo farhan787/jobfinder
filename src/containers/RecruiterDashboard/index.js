@@ -118,7 +118,7 @@ class RecruiterDashboard extends Component {
 				<Container style={styles.jobsListContainer}>
 					<Row>
 						<Col>
-							<h2>Posted Jobs</h2>
+							<h1>Posted Jobs</h1>
 						</Col>
 					</Row>
 

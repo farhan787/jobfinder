@@ -55,7 +55,7 @@ class LandingPage extends Component {
 
 				<Container>
 					<Jumbotron>
-						<h2>Welcome to Job Finder</h2>
+						<h1>Welcome to Job Finder</h1>
 						<p>We help people like you to find their Dream Job:)</p>
 						<button className='ui button primary'>Learn More</button>
 					</Jumbotron>

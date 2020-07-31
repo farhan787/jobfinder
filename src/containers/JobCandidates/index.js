@@ -151,7 +151,7 @@ class JobCandidates extends Component {
 				<Container style={styles.candidatesListContainer}>
 					<Row>
 						<Col>
-							<h2>Job Candidates</h2>
+							<h1>Job Candidates</h1>
 						</Col>
 					</Row>
 

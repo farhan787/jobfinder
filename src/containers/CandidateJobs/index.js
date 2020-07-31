@@ -137,13 +137,12 @@ class CandidateJobs extends Component {
 					</Row>
 				</Row>
 
-				<Row>
-					<Col>
-						<h2>Applied Jobs</h2>
-					</Col>
-				</Row>
-
 				<Container style={styles.jobsListContainer}>
+					<Row>
+						<Col>
+							<h1>Applied Jobs</h1>
+						</Col>
+					</Row>
 					{renderJobs(currentJobs)}
 				</Container>
 

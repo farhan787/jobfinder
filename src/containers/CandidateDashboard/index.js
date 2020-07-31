@@ -169,13 +169,12 @@ class CandidateDashboard extends Component {
 					</Row>
 				</Row>
 
-				<Row>
-					<Col>
-						<h2>Available Jobs</h2>
-					</Col>
-				</Row>
-
 				<Container style={styles.jobsListContainer}>
+					<Row>
+						<Col>
+							<h1>Available Jobs</h1>
+						</Col>
+					</Row>
 					{this.renderJobs(currentJobs)}
 				</Container>
 

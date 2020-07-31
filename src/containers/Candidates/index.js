@@ -120,7 +120,7 @@ class Candidates extends Component {
 				<Container style={styles.candidatesListContainer}>
 					<Row>
 						<Col>
-							<h2>Candidates</h2>
+							<h1>Candidates</h1>
 						</Col>
 					</Row>
 
