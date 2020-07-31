@@ -40,8 +40,8 @@ const validate = (formValues) => {
 		if (formValues.description.length < 3) {
 			errors.description = 'Description should be minimun of length 3';
 		}
-		if (formValues.description.length > 50) {
-			errors.description = 'Description should be maximum of length 50';
+		if (formValues.description.length > 150) {
+			errors.description = 'Description should be maximum of length 150';
 		}
 	}
 
