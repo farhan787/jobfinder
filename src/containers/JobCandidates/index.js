@@ -23,6 +23,17 @@ const styles = {
 		textAlign: 'center',
 		alignItem: 'center',
 	},
+	candidateHeader: {
+		borderRadius: '6px',
+		margin: '10px',
+		padding: '15px',
+		fontFamily: 'sans-serif',
+		backgroundColor: '#000',
+		color: '#fff',
+		fontSize: '1.2rem',
+		textAlign: 'center',
+		alignItem: 'center',
+	},
 	link: {
 		textDecoration: 'none',
 		color: 'black',
@@ -153,6 +164,12 @@ class JobCandidates extends Component {
 						<Col>
 							<h1>Job Candidates</h1>
 						</Col>
+					</Row>
+
+					<Row style={styles.candidateHeader}>
+						<Col md={2}>Name</Col>
+						<Col md={6}>Skills</Col>
+						<Col md={4}>Email</Col>
 					</Row>
 
 					{renderCandidates(currentCandidates)}

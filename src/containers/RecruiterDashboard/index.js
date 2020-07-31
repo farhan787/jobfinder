@@ -15,6 +15,17 @@ const styles = {
 	jobsListContainer: {
 		marginTop: '50px',
 	},
+	jobHeader: {
+		borderRadius: '6px',
+		margin: '10px',
+		padding: '15px',
+		fontFamily: 'sans-serif',
+		backgroundColor: '#000',
+		color: '#fff',
+		fontSize: '1.2rem',
+		textAlign: 'center',
+		alignItem: 'center',
+	},
 	link: {
 		textDecoration: 'none',
 		color: 'black',
@@ -120,6 +131,13 @@ class RecruiterDashboard extends Component {
 						<Col>
 							<h1>Posted Jobs</h1>
 						</Col>
+					</Row>
+
+					<Row style={styles.jobHeader}>
+						<Col md={2}>Title</Col>
+						<Col md={6}>Description</Col>
+						<Col md={2}>Location</Col>
+						<Col md={2}></Col>
 					</Row>
 
 					<RenderPostedJobs

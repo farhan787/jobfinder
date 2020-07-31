@@ -42,8 +42,8 @@ const RenderRecruiters = ({ recruiters, admin, deleteAdminRecruiter }) => {
 			<div key={recruiter.email}>
 				<Row style={styles.recruiter}>
 					<Col md={2}>{recruiter.name}</Col>
-					<Col md={4}>{recruiter.skills}</Col>
 					<Col md={4}>{recruiter.email}</Col>
+					<Col md={4}>{recruiter.phone}</Col>
 					<Col md={2}>
 						<Button
 							variant='danger'

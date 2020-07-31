@@ -19,12 +19,13 @@ const styles = {
 	recruitersListContainer: {
 		marginTop: '50px',
 	},
-	recruiter: {
+	recruiterHeader: {
 		borderRadius: '6px',
 		margin: '10px',
 		padding: '15px',
 		fontFamily: 'sans-serif',
-		backgroundColor: '#F0F0ED',
+		backgroundColor: '#000',
+		color: '#fff',
 		fontSize: '1.2rem',
 		textAlign: 'center',
 		alignItem: 'center',
@@ -159,6 +160,13 @@ class Recruiters extends Component {
 						<Col>
 							<h1>Recruiters</h1>
 						</Col>
+					</Row>
+
+					<Row style={styles.recruiterHeader}>
+						<Col md={2}>Name</Col>
+						<Col md={4}>Email</Col>
+						<Col md={4}>Phone</Col>
+						<Col md={2}></Col>
 					</Row>
 
 					<RenderRecruiters
