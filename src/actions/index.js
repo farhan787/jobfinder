@@ -1,6 +1,5 @@
 import request from '../apis';
 import history from '../history';
-
 import {
 	LOG_IN,
 	SIGN_UP,
@@ -18,6 +17,7 @@ import {
 	DELETE_ADMIN_CANDIDATE,
 	FETCH_ADMIN_RECRUITERS,
 	DELETE_ADMIN_RECRUITER,
+	FETCH_ADMIN_CANDIDATE_JOBS,
 } from '../common/constants';
 
 import { users } from '../config';
@@ -130,6 +130,20 @@ export const fetchJobCandidates = (recruiter, job) => async (dispatch) => {
 	});
 	dispatch({
 		type: FETCH_JOB_CANDIDATES,
+		payload: response.data,
+	});
+};
+
+export const fetchAdminCandidateJobs = (admin, candidate) => async (
+	dispatch
+) => {
+	const response = await request.get(`/candidates/${candidate.uuid}/jobs`, {
+		headers: {
+			authToken: admin.authToken,
+		},
+	});
+	dispatch({
+		type: FETCH_ADMIN_CANDIDATE_JOBS,
 		payload: response.data,
 	});
 };

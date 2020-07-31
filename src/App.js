@@ -17,6 +17,7 @@ import AdminDashboard from './containers/AdminDashboard/';
 import Jobs from './containers/Jobs/';
 import Candidates from './containers/Candidates/';
 import Recruiters from './containers/Recruiters/';
+import AdminCandidateJobs from './containers/AdminCandidateJobs/';
 import NotFound from './containers/ErrorPages/NotFound';
 
 function initializeAnalytics() {
@@ -48,6 +49,10 @@ const App = () => {
 						<Route path='/jobs' component={Jobs} />
 						<Route path='/candidates' component={Candidates} />
 						<Route path='/recruiters' component={Recruiters} />
+						<Route
+							path='/admin/candidate/jobs'
+							component={AdminCandidateJobs}
+						/>
 
 						<Route component={NotFound} />
 					</Switch>

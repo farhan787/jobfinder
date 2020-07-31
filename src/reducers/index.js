@@ -9,6 +9,7 @@ import AppliedJobs from './AppliedJobs';
 import AvailableJobs from './AvailableJobs';
 import JobCandidates from './JobCandidates';
 import PostedJobs from './PostedJobs';
+import AdminCandidateJobs from './AdminCandidateJobs';
 
 export default combineReducers({
 	form: formReducer,
@@ -20,4 +21,5 @@ export default combineReducers({
 	availableJobs: AvailableJobs,
 	jobCandidates: JobCandidates,
 	postedJobs: PostedJobs,
+	adminCandidateJobs: AdminCandidateJobs,
 });

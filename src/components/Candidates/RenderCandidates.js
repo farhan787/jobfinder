@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 const styles = {
 	candidate: {
@@ -12,6 +13,10 @@ const styles = {
 		fontSize: '1.2rem',
 		textAlign: 'center',
 		alignItem: 'center',
+	},
+	link: {
+		textDecoration: 'none',
+		color: 'black',
 	},
 };
 
@@ -40,21 +45,31 @@ const RenderCandidates = ({ candidates, admin, deleteAdminCandidate }) => {
 	return candidates.map((candidate) => {
 		return (
 			<div key={candidate.email}>
-				<Row style={styles.candidate}>
-					<Col md={2}>{candidate.name}</Col>
-					<Col md={4}>{candidate.skills}</Col>
-					<Col md={4}>{candidate.email}</Col>
-					<Col md={2}>
-						<Button
-							variant='danger'
-							onClick={() =>
-								handleDelete(candidate, admin, deleteAdminCandidate)
-							}
-						>
-							Delete
-						</Button>
-					</Col>
-				</Row>
+				<Link
+					to={{
+						pathname: '/admin/candidate/jobs',
+						state: {
+							candidate,
+						},
+					}}
+					style={styles.link}
+				>
+					<Row style={styles.candidate}>
+						<Col md={2}>{candidate.name}</Col>
+						<Col md={4}>{candidate.skills}</Col>
+						<Col md={4}>{candidate.email}</Col>
+						<Col md={2}>
+							<Button
+								variant='danger'
+								onClick={() =>
+									handleDelete(candidate, admin, deleteAdminCandidate)
+								}
+							>
+								Delete
+							</Button>
+						</Col>
+					</Row>
+				</Link>
 			</div>
 		);
 	});
