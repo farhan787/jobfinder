@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { passwordMinLength, users } from '../../config';
 import { Container, Col, Row } from 'react-bootstrap';
 import history from '../../history';
-
+import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Field, reduxForm } from 'redux-form';
@@ -88,7 +88,11 @@ class Login extends Component {
 			.logIn(formValues, formValues.userType)
 			.then((response) => {})
 			.catch((err) => {
-				alert('invalid email or password');
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: err.response.data.error.message,
+				});
 			});
 	};
 
