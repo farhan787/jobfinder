@@ -71,13 +71,7 @@ const validate = (formValues) => {
 	if (!formValues.userType) {
 		errors.userType = 'You must enter a user type';
 	}
-	if (
-		formValues.userType &&
-		![users.candidate.type, users.recruiter.type].includes(formValues.userType)
-	) {
-		errors.userType =
-			'User type can be either candidate or recruiter (case sensitive)';
-	}
+
 	return errors;
 };
 
@@ -98,6 +92,21 @@ class Signup extends Component {
 			<div className={className}>
 				<label>{label}</label>
 				<input {...input} type={type} placeholder={placeholder} />
+				{this.renderError(meta)}
+			</div>
+		);
+	};
+
+	renderUserType = ({ label, meta }) => {
+		const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
+		return (
+			<div className={className}>
+				<label>{label}</label>
+				<Field name='userType' component='select'>
+					<option></option>
+					<option value='candidate'>Candidate</option>
+					<option value='recruiter'>Recruiter</option>
+				</Field>
 				{this.renderError(meta)}
 			</div>
 		);
@@ -162,8 +171,8 @@ class Signup extends Component {
 
 							<Field
 								name='userType'
-								component={this.renderInput}
-								label='candidate or recruiter??'
+								component={this.renderUserType}
+								label='Signup for'
 							/>
 
 							<Field
