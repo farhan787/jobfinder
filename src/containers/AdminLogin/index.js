@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { captchaSiteKey, passwordMinLength, users } from '../../config';
 import { Container, Col, Row } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 import history from '../../history';
 
 import Recaptcha from 'react-google-invisible-recaptcha';
@@ -86,7 +87,11 @@ class AdminLogin extends Component {
 			.logIn(formValues, users.admin.type)
 			.then((response) => {})
 			.catch((err) => {
-				alert('invalid email or password');
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: err.response.data.error.message,
+				});
 			});
 	};
 

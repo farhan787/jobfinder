@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
@@ -65,33 +65,6 @@ class Recruiters extends Component {
 
 	paginate = (pageNumber) => {
 		this.setState({ currentPage: pageNumber });
-	};
-
-	renderRecruiters = (recruiters) => {
-		const admin = this.props.loggedInUser;
-
-		return recruiters.map((recruiter) => {
-			return (
-				<div key={recruiter.email}>
-					<Row style={styles.recruiter}>
-						<Col md={2}>{recruiter.name}</Col>
-						<Col md={4}>{recruiter.email}</Col>
-						<Col md={4}>{recruiter.phone}</Col>
-						<Col md={2}>
-							<Button
-								variant='danger'
-								onClick={() => {
-									this.props.deleteAdminRecruiter(admin, recruiter);
-									alert('Deleting recruiter');
-								}}
-							>
-								Delete
-							</Button>
-						</Col>
-					</Row>
-				</div>
-			);
-		});
 	};
 
 	render() {

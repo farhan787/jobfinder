@@ -19,6 +19,12 @@ const styles = {
 		marginTop: '30px',
 		marginBottom: '30px',
 	},
+	signUpButton: {
+		marginBottom: '20px'
+	},
+	alreadyHaveAnAccount: {
+		fontSize: '1.1rem',
+	}
 };
 
 const validate = (formValues) => {
@@ -182,11 +188,11 @@ class Signup extends Component {
 								placeholder='Only if you are a candidate'
 							/>
 
-							<button className='ui button primary'>Signup</button>
+							<button className='ui button primary' style={styles.signUpButton} >Signup</button>
 						</form>
 
 						<Link to='/login'>
-							<small>Already have an account?</small>
+							<small style={styles.alreadyHaveAnAccount}>Already have an account?</small>
 						</Link>
 					</Col>{' '}
 				</Row>

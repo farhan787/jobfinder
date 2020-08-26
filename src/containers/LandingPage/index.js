@@ -42,7 +42,7 @@ class LandingPage extends Component {
 					<Navbar.Collapse className='justify-content-end'>
 						<Navbar.Text>
 							<Link style={styles.navbar} to='/signup'>
-								Sign Up
+								Sign Up &nbsp;
 							</Link>
 						</Navbar.Text>
 						<Navbar.Text>
