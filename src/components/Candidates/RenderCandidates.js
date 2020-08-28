@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import history from '../../history';
 
 const styles = {
 	candidate: {
@@ -37,6 +38,7 @@ const handleDelete = (candidate, admin, deleteAdminCandidate) => {
 				'success'
 			);
 			deleteAdminCandidate(admin, candidate);
+			history.push('/candidates');
 		}
 	});
 };
