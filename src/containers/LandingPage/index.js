@@ -47,7 +47,7 @@ class LandingPage extends Component {
 						</Navbar.Text>
 						<Navbar.Text>
 							<Link style={styles.navbar} to='/login'>
-								Log in
+								Log In
 							</Link>
 						</Navbar.Text>
 					</Navbar.Collapse>
