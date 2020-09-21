@@ -82,6 +82,11 @@ const validate = (formValues) => {
 };
 
 class Signup extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { signupButtonDisabled: false };
+	}
+
 	renderError({ error, touched }) {
 		if (touched && error) {
 			return (
@@ -124,6 +129,7 @@ class Signup extends Component {
 		} else if (formValues.userType === users.recruiter.type) {
 			formValues.role = users.recruiter.role;
 		}
+		this.setState({ signupButtonDisabled: true });
 		this.props
 			.signUp(formValues, formValues.userType)
 			.then((response) => {})
@@ -133,6 +139,7 @@ class Signup extends Component {
 					title: 'Oops...',
 					text: err.response.data.error.message,
 				});
+				this.setState({ signupButtonDisabled: false });
 			});
 	};
 
@@ -188,7 +195,13 @@ class Signup extends Component {
 								placeholder='Only if you are a candidate'
 							/>
 
-							<button className='ui button primary' style={styles.signUpButton} >Signup</button>
+							<button
+								className='ui button primary'
+								style={styles.signUpButton}
+								disabled={this.state.signupButtonDisabled}
+							>
+								Signup
+							</button>
 						</form>
 
 						<Link to='/login'>

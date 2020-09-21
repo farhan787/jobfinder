@@ -40,6 +40,11 @@ const validate = (formValues) => {
 };
 
 class Login extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { loginButtonDisabled: false };
+	}
+
 	componentDidMount() {
 		const user = this.props.loggedInUser;
 		if (user) {
@@ -93,7 +98,7 @@ class Login extends Component {
 		} else if (formValues.userType === users.recruiter.type) {
 			formValues.role = users.recruiter.role;
 		}
-
+		this.setState({ loginButtonDisabled: true });
 		this.props
 			.logIn(formValues, formValues.userType)
 			.then((response) => {})
@@ -103,6 +108,7 @@ class Login extends Component {
 					title: 'Oops...',
 					text: err.response.data.error.message,
 				});
+				this.setState({ loginButtonDisabled: false });
 			});
 	};
 
@@ -147,7 +153,11 @@ class Login extends Component {
 								label='User Type'
 							/>
 
-							<button className='ui button primary' style={styles.loginButton}>
+							<button
+								className='ui button primary'
+								style={styles.loginButton}
+								disabled={this.state.loginButtonDisabled}
+							>
 								Login
 							</button>
 						</form>

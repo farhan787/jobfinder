@@ -38,6 +38,11 @@ const validate = (formValues) => {
 };
 
 class AdminLogin extends Component {
+	constructor(props) {
+		super(props);
+		this.state = { loginButtonDisabled: false };
+	}
+
 	componentDidMount() {
 		const user = this.props.loggedInUser;
 		if (user) {
@@ -83,6 +88,7 @@ class AdminLogin extends Component {
 
 	onSubmit = (formValues) => {
 		formValues.role = users.admin.role;
+		this.setState({ loginButtonDisabled: true });
 		this.props
 			.logIn(formValues, users.admin.type)
 			.then((response) => {})
@@ -92,6 +98,7 @@ class AdminLogin extends Component {
 					title: 'Oops...',
 					text: err.response.data.error.message,
 				});
+				this.setState({ loginButtonDisabled: false });
 			});
 	};
 
@@ -132,7 +139,11 @@ class AdminLogin extends Component {
 
 							<Field name='captcharesponse' component={this.Captcha} />
 
-							<button className='ui button primary' style={styles.loginButton}>
+							<button
+								className='ui button primary'
+								style={styles.loginButton}
+								disabled={this.state.loginButtonDisabled}
+							>
 								Login
 							</button>
 						</form>
