@@ -10,106 +10,106 @@ import { users } from '../../config';
 import history from '../../history';
 
 const styles = {
-	navbar: {
-		color: 'white',
-	},
+  navbar: {
+    color: 'white',
+  },
 };
 
 class LandingPage extends Component {
-	componentDidMount() {
-		const user = this.props.loggedInUser;
-		if (user) {
-			if (user.userType === users.admin.type) {
-				history.push('/admin/dashboard');
-			} else if (user.userType === users.candidate.type) {
-				history.push('/candidate/dashboard');
-			} else if (user.userType === users.recruiter.type) {
-				history.push('/recruiter/dashboard');
-			}
-		}
-	}
+  componentDidMount() {
+    const user = this.props.loggedInUser;
+    if (user) {
+      if (user.userType === users.admin.type) {
+        history.push('/admin/dashboard');
+      } else if (user.userType === users.candidate.type) {
+        history.push('/candidate/dashboard');
+      } else if (user.userType === users.recruiter.type) {
+        history.push('/recruiter/dashboard');
+      }
+    }
+  }
 
-	render() {
-		return (
-			<div>
-				<Navbar>
-					<Navbar.Brand>
-						<Link style={styles.navbar} to='/'>
-							Job Finder
-						</Link>
-					</Navbar.Brand>
-					<Navbar.Toggle />
-					<Navbar.Collapse className='justify-content-end'>
-						<Navbar.Text>
-							<Link style={styles.navbar} to='/signup'>
-								Sign Up &nbsp;
-							</Link>
-						</Navbar.Text>
-						<Navbar.Text>
-							<Link style={styles.navbar} to='/login'>
-								Log In
-							</Link>
-						</Navbar.Text>
-					</Navbar.Collapse>
-				</Navbar>
+  render() {
+    return (
+      <div>
+        <Navbar>
+          <Navbar.Brand>
+            <Link style={styles.navbar} to="/">
+              Job Finder
+            </Link>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse className="justify-content-end">
+            <Navbar.Text>
+              <Link style={styles.navbar} to="/signup">
+                Sign Up &nbsp;
+              </Link>
+            </Navbar.Text>
+            <Navbar.Text>
+              <Link style={styles.navbar} to="/login">
+                Log In
+              </Link>
+            </Navbar.Text>
+          </Navbar.Collapse>
+        </Navbar>
 
-				<Container>
-					<Jumbotron>
-						<h1>Welcome to Job Finder</h1>
-						<p>We help people like you to find their Dream Job:)</p>
-						<button className='ui button primary'>Learn More</button>
-					</Jumbotron>
-					<Row className='show-grid text-center'>
-						<Col xs={12} sm={6} lg={4} className='person-wrapper'>
-							<Image
-								src={require('../../assets/person-1.jpg')}
-								roundedCircle
-								className='profile-pic'
-							/>
-							<h3>Frank</h3>
-							<p>
-								That's a crooked tree. We'll send him to Washington. These
-								little son of a guns hide in your brush and you just have to
-								push them out.
-							</p>
-						</Col>
-						<Col xs={12} sm={6} lg={4} className='person-wrapper'>
-							<Image
-								src={require('../../assets/person-2.jpg')}
-								roundedCircle
-								className='profile-pic'
-							/>
-							<h3>Vanessa</h3>
-							<p>
-								That's a crooked tree. We'll send him to Washington. These
-								little son of a guns hide in your brush and you just have to
-								push them out.
-							</p>
-						</Col>
-						<Col xs={12} sm={6} lg={4} className='person-wrapper'>
-							<Image
-								src={require('../../assets/person-3.jpg')}
-								roundedCircle
-								className='profile-pic'
-							/>
-							<h3>Riff</h3>
-							<p>
-								That's a crooked tree. We'll send him to Washington. These
-								little son of a guns hide in your brush and you just have to
-								push them out.
-							</p>
-						</Col>
-					</Row>
-				</Container>
-			</div>
-		);
-	}
+        <Container>
+          <Jumbotron>
+            <h1>Welcome to Job Finder</h1>
+            <p>We help people like you to find their Dream Job:)</p>
+            <button className="ui button primary">Learn More</button>
+          </Jumbotron>
+          <Row className="show-grid text-center">
+            <Col xs={12} sm={6} lg={4} className="person-wrapper">
+              <Image
+                src={require('../../assets/person-1.jpg')}
+                roundedCircle
+                className="profile-pic"
+              />
+              <h3>Frank</h3>
+              <p>
+                That's a crooked tree. We'll send him to Washington. These
+                little son of a guns hide in your brush and you just have to
+                push them out.
+              </p>
+            </Col>
+            <Col xs={12} sm={6} lg={4} className="person-wrapper">
+              <Image
+                src={require('../../assets/person-2.jpg')}
+                roundedCircle
+                className="profile-pic"
+              />
+              <h3>Vanessa</h3>
+              <p>
+                That's a crooked tree. We'll send him to Washington. These
+                little son of a guns hide in your brush and you just have to
+                push them out.
+              </p>
+            </Col>
+            <Col xs={12} sm={6} lg={4} className="person-wrapper">
+              <Image
+                src={require('../../assets/person-3.jpg')}
+                roundedCircle
+                className="profile-pic"
+              />
+              <h3>Riff</h3>
+              <p>
+                That's a crooked tree. We'll send him to Washington. These
+                little son of a guns hide in your brush and you just have to
+                push them out.
+              </p>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
-	return {
-		loggedInUser: state.loggedInUser,
-	};
+  return {
+    loggedInUser: state.loggedInUser,
+  };
 };
 
 export default connect(mapStateToProps)(LandingPage);

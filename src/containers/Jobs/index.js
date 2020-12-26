@@ -11,143 +11,143 @@ import Pagination from '../../components/Pagination';
 import RenderJobs from '../../components/Admin/RenderJobs';
 
 const styles = {
-	row: { marginTop: '40px' },
-	jobsListContainer: {
-		marginTop: '50px',
-	},
-	jobHeader: {
-		borderRadius: '6px',
-		margin: '10px',
-		padding: '15px',
-		fontFamily: 'sans-serif',
-		backgroundColor: '#000',
-		color: '#fff',
-		fontSize: '1.2rem',
-		textAlign: 'center',
-		alignItem: 'center',
-	},
-	link: {
-		textDecoration: 'none',
-		color: 'black',
-	},
+  row: { marginTop: '40px' },
+  jobsListContainer: {
+    marginTop: '50px',
+  },
+  jobHeader: {
+    borderRadius: '6px',
+    margin: '10px',
+    padding: '15px',
+    fontFamily: 'sans-serif',
+    backgroundColor: '#000',
+    color: '#fff',
+    fontSize: '1.2rem',
+    textAlign: 'center',
+    alignItem: 'center',
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'black',
+  },
 };
 
 let jobsLoaded = false;
 
 class Jobs extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			currentPage: 1,
-			jobsPerPage: 5,
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPage: 1,
+      jobsPerPage: 5,
+    };
+  }
 
-	componentDidMount() {
-		const admin = this.props.loggedInUser;
-		if (admin) {
-			if (admin.userType !== users.admin.type) {
-				history.push('/login');
-			}
-		}
+  componentDidMount() {
+    const admin = this.props.loggedInUser;
+    if (admin) {
+      if (admin.userType !== users.admin.type) {
+        history.push('/login');
+      }
+    }
 
-		this.props.fetchAdminJobs(admin);
-		jobsLoaded = true;
-	}
+    this.props.fetchAdminJobs(admin);
+    jobsLoaded = true;
+  }
 
-	paginate = (pageNumber) => {
-		this.setState({ currentPage: pageNumber });
-	};
+  paginate = (pageNumber) => {
+    this.setState({ currentPage: pageNumber });
+  };
 
-	render() {
-		if (!jobsLoaded) {
-			return <Spinner animation='border' />;
-		}
+  render() {
+    if (!jobsLoaded) {
+      return <Spinner animation="border" />;
+    }
 
-		if (!this.props.jobs.length) {
-			return (
-				<Container>
-					<Row style={styles.headerRow}>
-						<Col>
-							<Link to='/' style={styles.homeLink}>
-								<h1>Job Finder</h1>
-							</Link>
-						</Col>
-						<Row>
-							<Col>
-								<Link onClick={() => this.props.logOut()} to='/'>
-									Logout
-								</Link>
-							</Col>
-						</Row>
-					</Row>
-					<h1 style={{ marginTop: '80px' }}>No Job posted yet:(</h1>
-				</Container>
-			);
-		}
+    if (!this.props.jobs.length) {
+      return (
+        <Container>
+          <Row style={styles.headerRow}>
+            <Col>
+              <Link to="/" style={styles.homeLink}>
+                <h1>Job Finder</h1>
+              </Link>
+            </Col>
+            <Row>
+              <Col>
+                <Link onClick={() => this.props.logOut()} to="/">
+                  Logout
+                </Link>
+              </Col>
+            </Row>
+          </Row>
+          <h1 style={{ marginTop: '80px' }}>No Job posted yet:(</h1>
+        </Container>
+      );
+    }
 
-		const indexOfLastJob = this.state.currentPage * this.state.jobsPerPage;
-		const indexOfFirstJob = indexOfLastJob - this.state.jobsPerPage;
-		const currentJobs = this.props.jobs.slice(indexOfFirstJob, indexOfLastJob);
+    const indexOfLastJob = this.state.currentPage * this.state.jobsPerPage;
+    const indexOfFirstJob = indexOfLastJob - this.state.jobsPerPage;
+    const currentJobs = this.props.jobs.slice(indexOfFirstJob, indexOfLastJob);
 
-		return (
-			<Container>
-				<Helmet>
-					<title>Jobs</title>
-				</Helmet>
+    return (
+      <Container>
+        <Helmet>
+          <title>Jobs</title>
+        </Helmet>
 
-				<Row style={styles.headerRow}>
-					<Col>
-						<Link to='/' style={styles.homeLink}>
-							<h1>Job Finder</h1>
-						</Link>
-					</Col>
-					<Row>
-						<Col>
-							<Link onClick={() => this.props.logOut()} to='/'>
-								Logout
-							</Link>
-						</Col>
-					</Row>
-				</Row>
+        <Row style={styles.headerRow}>
+          <Col>
+            <Link to="/" style={styles.homeLink}>
+              <h1>Job Finder</h1>
+            </Link>
+          </Col>
+          <Row>
+            <Col>
+              <Link onClick={() => this.props.logOut()} to="/">
+                Logout
+              </Link>
+            </Col>
+          </Row>
+        </Row>
 
-				<Container style={styles.jobsListContainer}>
-					<Row>
-						<Col>
-							<h1>Jobs</h1>
-						</Col>
-					</Row>
+        <Container style={styles.jobsListContainer}>
+          <Row>
+            <Col>
+              <h1>Jobs</h1>
+            </Col>
+          </Row>
 
-					<Row style={styles.jobHeader}>
-						<Col md={2}>Title</Col>
-						<Col md={6}>Description</Col>
-						<Col md={2}>Location</Col>
-						<Col md={2}></Col>
-					</Row>
+          <Row style={styles.jobHeader}>
+            <Col md={2}>Title</Col>
+            <Col md={6}>Description</Col>
+            <Col md={2}>Location</Col>
+            <Col md={2}></Col>
+          </Row>
 
-					<RenderJobs
-						jobs={currentJobs}
-						admin={this.props.loggedInUser}
-						deleteAdminJob={this.props.deleteAdminJob}
-					/>
-				</Container>
+          <RenderJobs
+            jobs={currentJobs}
+            admin={this.props.loggedInUser}
+            deleteAdminJob={this.props.deleteAdminJob}
+          />
+        </Container>
 
-				<Pagination
-					currentPage={this.state.currentPage}
-					itemsPerPage={this.state.jobsPerPage}
-					totalItems={this.props.jobs.length}
-					paginate={this.paginate}
-				/>
-			</Container>
-		);
-	}
+        <Pagination
+          currentPage={this.state.currentPage}
+          itemsPerPage={this.state.jobsPerPage}
+          totalItems={this.props.jobs.length}
+          paginate={this.paginate}
+        />
+      </Container>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
-	return {
-		loggedInUser: state.loggedInUser,
-		jobs: state.jobs,
-	};
+  return {
+    loggedInUser: state.loggedInUser,
+    jobs: state.jobs,
+  };
 };
 
 const actionCreators = { deleteAdminJob, fetchAdminJobs, logOut };

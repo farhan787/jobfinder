@@ -12,14 +12,14 @@ import PostedJobs from './PostedJobs';
 import AdminCandidateJobs from './AdminCandidateJobs';
 
 export default combineReducers({
-	form: formReducer,
-	loggedInUser: LoggedInUser,
-	candidates: Candidates,
-	recruiters: Recruiters,
-	jobs: Jobs,
-	appliedJobs: AppliedJobs,
-	availableJobs: AvailableJobs,
-	jobCandidates: JobCandidates,
-	postedJobs: PostedJobs,
-	adminCandidateJobs: AdminCandidateJobs,
+  form: formReducer,
+  loggedInUser: LoggedInUser,
+  candidates: Candidates,
+  recruiters: Recruiters,
+  jobs: Jobs,
+  appliedJobs: AppliedJobs,
+  availableJobs: AvailableJobs,
+  jobCandidates: JobCandidates,
+  postedJobs: PostedJobs,
+  adminCandidateJobs: AdminCandidateJobs,
 });
